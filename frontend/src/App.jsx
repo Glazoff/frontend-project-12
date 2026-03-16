@@ -1,18 +1,20 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import {Main} from './pages/Main'
-import {Login} from './pages/Login'
-import {PageNotFound} from './pages/404';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { Login } from './pages/Login';
+import { Main } from './pages/Main';
+import { PageNotFound } from './pages/404';
+
+export const App = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route element={<ProtectedRoute />} path="/">
+        <Route element={<Main />} index />
+      </Route>
+      <Route element={<Login />} path="/login" />
+      <Route element={<PageNotFound />} path="*" />
+    </Routes>
+  </BrowserRouter>
+);
 
 export default App;
