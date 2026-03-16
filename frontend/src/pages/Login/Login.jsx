@@ -1,32 +1,44 @@
-import { Formik, Field, Form } from 'formik';
-import {login} from '../../api/auth'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
+import { Field, Form, Formik } from 'formik';
 
-const initialValues = { name: "", password: "" }
+import { login } from '../../api/auth';
+
+const INITIAL_VALUES = { name: '', password: '' };
 
 export function Login() {
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const onSubmit = (values, actions) => {
-    login(values)
-      .then(({token}) => {
-        localStorage.setItem('token', token)
-        
-        
-      })
-      .catch((e) => console.error(e))
-      .finally(() => {actions.setSubmitting(false)})
-  }
+  const handleSubmit = async (values, actions) => {
+    try {
+      const { token } = await login(values);
+      localStorage.setItem('token', token);
+      navigate('/');
+    } catch {
+      setError('the username or password is incorrect');
+    } finally {
+      actions.setSubmitting(false);
+    }
+  };
 
-  return(
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+  return (
+    <Formik initialValues={INITIAL_VALUES} onSubmit={handleSubmit}>
       <Form>
+        {error && (
+          <Alert role="alert" variant="danger">
+            {error}
+          </Alert>
+        )}
         <label htmlFor="name">Name</label>
-        <Field type="name" name="name"></Field>
+        <Field name="name" type="text" />
 
         <label htmlFor="password">Password</label>
-        <Field type="password" name="password"></Field>
+        <Field name="password" type="password" />
 
         <button type="submit">Submit</button>
       </Form>
     </Formik>
-  )
+  );
 }
