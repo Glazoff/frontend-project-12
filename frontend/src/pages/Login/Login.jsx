@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
 import { Field, Form, Formik } from 'formik';
 
+import { setAuthToken } from '../../api';
 import { login } from '../../api/auth';
 
 const INITIAL_VALUES = { name: '', password: '' };
@@ -15,6 +16,7 @@ export function Login() {
     try {
       const { token } = await login(values);
       localStorage.setItem('token', token);
+      setAuthToken(token);
       navigate('/');
     } catch {
       setError('the username or password is incorrect');
