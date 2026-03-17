@@ -1,5 +1,3 @@
-import axios from "axios";
+import api from './index';
 
-export const login = ({name, password}) => axios.post('/api/v1/login', { username: name, password}).then((response) => {
-  return response.data;
-});
+export const login = ({ name, password }) => api.post('/login', { username: name, password }).then((response) => response.data);
