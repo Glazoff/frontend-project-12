@@ -1,6 +1,6 @@
 import { Alert } from 'react-bootstrap';
 
-import { CONNECTION_STATUS } from '../../store/messagesSlice';
+import { CONNECTION_STATUS } from '../../constants';
 
 export function ConnectionStatusAlert({ status }) {
   if (status === CONNECTION_STATUS.DISCONNECTED) {

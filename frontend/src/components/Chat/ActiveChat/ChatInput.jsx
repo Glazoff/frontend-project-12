@@ -1,14 +1,24 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Form, Button, Spinner } from 'react-bootstrap';
 
-import { CONNECTION_STATUS } from '../../../store/messagesSlice';
+import { CONNECTION_STATUS } from '../../../constants';
 import { useChat } from '../../../hooks/useChat.jsx';
+import { useAuth } from '../../../hooks/useAuth';
 
-const DEFAULT_CHANNEL_ID = '1';
-
-export function ChatInput({ connectionStatus }) {
+export function ChatInput() {
   const [messageText, setMessageText] = useState('');
   const { sendMessage, isSending } = useChat();
+  const { currentChannelId } = useSelector((state) => state.channels);
+  const { username } = useAuth();
+  const { connectionStatus } = useSelector((state) => state.messages);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (!isSending) {
+      inputRef.current?.focus();
+    }
+  }, [isSending]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,7 +26,8 @@ export function ChatInput({ connectionStatus }) {
 
     const messageData = {
       body: messageText.trim(),
-      channelId: DEFAULT_CHANNEL_ID,
+      channelId: currentChannelId,
+      username: username || 'anonymous',
     };
 
     const success = await sendMessage(messageData);
@@ -30,7 +41,12 @@ export function ChatInput({ connectionStatus }) {
   return (
     <div className="bg-light p-3">
       <Form className="d-flex gap-2" onSubmit={handleSubmit}>
+        <label htmlFor="messageInput" style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', border: 0 }}>
+          Введите сообщение
+        </label>
         <Form.Control
+          ref={inputRef}
+          id="messageInput"
           type="text"
           placeholder="Введите сообщение..."
           value={messageText}

@@ -6,7 +6,8 @@ import { initSocket } from '../../api/socket';
 import { useChat } from '../../hooks/useChat.jsx';
 import { useAuth } from '../../hooks/useAuth';
 import { addChannel, removeChannel, renameChannel } from '../../store/channelsSlice';
-import { addNewMessage, setConnectionStatus, CONNECTION_STATUS } from '../../store/messagesSlice';
+import { addNewMessage, setConnectionStatus } from '../../store/messagesSlice';
+import { CONNECTION_STATUS } from '../../constants';
 
 export function Main() {
   const { token } = useAuth();

@@ -1,0 +1,1 @@
+export { RemoveChannelModal } from './RemoveChannelModal';

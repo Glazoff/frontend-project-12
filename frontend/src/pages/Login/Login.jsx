@@ -17,9 +17,11 @@ export function Login() {
     },
     onSubmit: async (values, actions) => {
       try {
-        const { token } = await login(values);
+        const { token, username } = await login(values);
+        const userNameToSave = username || values.name;
         localStorage.setItem('token', token);
-        setAuthToken(token);
+        localStorage.setItem('username', userNameToSave);
+        setAuthToken(token, userNameToSave);
         navigate('/');
       } catch {
         setError('the username or password is incorrect');
