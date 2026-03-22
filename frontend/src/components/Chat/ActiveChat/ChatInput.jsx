@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 
 import { CONNECTION_STATUS } from '../../../store/messagesSlice';
-import { useChat } from '../../../hooks/useChat';
+import { useChat } from '../../../hooks/useChat.jsx';
 
 const DEFAULT_CHANNEL_ID = '1';
 
