@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Button, Spinner } from 'react-bootstrap';
 
@@ -12,6 +12,13 @@ export function ChatInput() {
   const { currentChannelId } = useSelector((state) => state.channels);
   const { username } = useAuth();
   const { connectionStatus } = useSelector((state) => state.messages);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (!isSending) {
+      inputRef.current?.focus();
+    }
+  }, [isSending]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +42,7 @@ export function ChatInput() {
     <div className="bg-light p-3">
       <Form className="d-flex gap-2" onSubmit={handleSubmit}>
         <Form.Control
+          ref={inputRef}
           type="text"
           placeholder="Введите сообщение..."
           value={messageText}

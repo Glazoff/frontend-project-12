@@ -56,7 +56,7 @@ export function ChannelList() {
             active={channel.id === currentChannelId}
             onClick={() => handleSelectChannel(channel.id)}
           >
-            {channel.name}
+            # {channel.name}
           </ListGroup.Item>
         ))}
       </ListGroup>

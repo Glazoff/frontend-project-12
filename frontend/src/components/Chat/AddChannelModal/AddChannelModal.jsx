@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import { useFormik } from 'formik';
@@ -11,6 +11,13 @@ export function AddChannelModal({ show, handleClose }) {
   const dispatch = useDispatch();
   const { items: channels } = useSelector((state) => state.channels);
   const [error, setError] = useState('');
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (show) {
+      inputRef.current?.focus();
+    }
+  }, [show]);
 
   const validationSchema = yup.object({
     name: yup
@@ -62,6 +69,7 @@ export function AddChannelModal({ show, handleClose }) {
           <Form.Group className="mb-3" controlId="channelName">
             <Form.Label>Название канала</Form.Label>
             <Form.Control
+              ref={inputRef}
               type="text"
               name="name"
               placeholder="Введите название"

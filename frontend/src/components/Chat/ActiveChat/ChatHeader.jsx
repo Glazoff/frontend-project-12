@@ -16,6 +16,8 @@ export function ChatHeader() {
   const { items: channels, currentChannelId } = useSelector((state) => state.channels);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [showRenameModal, setShowRenameModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isRenaming, setIsRenaming] = useState(false);
 
   const currentChannel = channels.find((ch) => ch.id === currentChannelId);
 
@@ -26,6 +28,7 @@ export function ChatHeader() {
 
   const handleConfirmDelete = async () => {
     if (!currentChannel) return;
+    setIsDeleting(true);
     try {
       await removeChannelApi(currentChannel.id);
       dispatch(removeChannel({ id: currentChannel.id }));
@@ -34,23 +37,28 @@ export function ChatHeader() {
       handleCloseRemoveModal();
     } catch (err) {
       console.error('Failed to delete channel:', err);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
   const handleConfirmRename = async (newName) => {
     if (!currentChannel || !newName) return;
+    setIsRenaming(true);
     try {
       await editChannelApi(currentChannel.id, { name: newName });
     } catch (err) {
       console.error('Failed to rename channel:', err);
       throw err;
+    } finally {
+      setIsRenaming(false);
     }
   };
 
   return (
     <>
       <div className="bg-light d-flex justify-content-between align-items-center">
-        <h5 className="mb-0">{currentChannel?.name || 'Чат'}</h5>
+        <h5 className="mb-0"># {currentChannel?.name || 'Чат'}</h5>
         <div className="d-flex align-items-center gap-2">
           {connectionStatus !== CONNECTION_STATUS.CONNECTED && (
             <Spinner animation="border" size="sm" variant="warning" />
@@ -61,6 +69,7 @@ export function ChatHeader() {
                 variant="outline-secondary"
                 size="sm"
                 onClick={handleOpenRenameModal}
+                disabled={isRenaming || isDeleting}
               >
                 Rename
               </Button>
@@ -68,6 +77,7 @@ export function ChatHeader() {
                 variant="danger"
                 size="sm"
                 onClick={handleOpenRemoveModal}
+                disabled={isRenaming || isDeleting}
               >
                 Delete
               </Button>
@@ -80,12 +90,14 @@ export function ChatHeader() {
         handleClose={handleCloseRenameModal}
         handleConfirm={handleConfirmRename}
         channel={currentChannel}
+        isRenaming={isRenaming}
       />
       <RemoveChannelModal
         show={showRemoveModal}
         handleClose={handleCloseRemoveModal}
         handleConfirm={handleConfirmDelete}
         channelName={currentChannel?.name}
+        isDeleting={isDeleting}
       />
     </>
   );

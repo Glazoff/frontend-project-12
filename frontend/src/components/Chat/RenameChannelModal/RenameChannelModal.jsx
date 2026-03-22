@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-export function RenameChannelModal({ show, handleClose, handleConfirm, channel }) {
+export function RenameChannelModal({ show, handleClose, handleConfirm, channel, isRenaming }) {
   const { items: channels } = useSelector((state) => state.channels);
   const [error, setError] = useState('');
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (show) {
+      inputRef.current?.focus();
+    }
+  }, [show]);
 
   const validationSchema = yup.object({
     name: yup
@@ -60,6 +67,7 @@ export function RenameChannelModal({ show, handleClose, handleConfirm, channel }
           <Form.Group className="mb-3" controlId="channelName">
             <Form.Label>Название канала</Form.Label>
             <Form.Control
+              ref={inputRef}
               type="text"
               name="name"
               placeholder="Введите название"
@@ -76,15 +84,15 @@ export function RenameChannelModal({ show, handleClose, handleConfirm, channel }
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleClose} disabled={isRenaming}>
           Отмена
         </Button>
         <Button
           variant="primary"
           onClick={formik.handleSubmit}
-          disabled={formik.isSubmitting}
+          disabled={formik.isSubmitting || isRenaming}
         >
-          {formik.isSubmitting ? 'Сохранение...' : 'Сохранить'}
+          {formik.isSubmitting || isRenaming ? 'Сохранение...' : 'Сохранить'}
         </Button>
       </Modal.Footer>
     </Modal>

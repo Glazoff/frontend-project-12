@@ -1,6 +1,6 @@
 import { Modal, Button } from 'react-bootstrap';
 
-export function RemoveChannelModal({ show, handleClose, handleConfirm, channelName }) {
+export function RemoveChannelModal({ show, handleClose, handleConfirm, channelName, isDeleting }) {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -13,11 +13,11 @@ export function RemoveChannelModal({ show, handleClose, handleConfirm, channelNa
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleClose} disabled={isDeleting}>
           Отмена
         </Button>
-        <Button variant="danger" onClick={handleConfirm}>
-          Удалить
+        <Button variant="danger" onClick={handleConfirm} disabled={isDeleting}>
+          {isDeleting ? 'Удаление...' : 'Удалить'}
         </Button>
       </Modal.Footer>
     </Modal>
