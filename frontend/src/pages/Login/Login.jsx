@@ -1,15 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useFormik } from 'formik';
 
 import { setAuthToken } from '../../api';
 import { login } from '../../api/auth';
-import { setUser } from '../../store/userSlice';
 
 export function Login() {
-  const dispatch = useDispatch();
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -21,9 +18,10 @@ export function Login() {
     onSubmit: async (values, actions) => {
       try {
         const { token, username } = await login(values);
+        const userNameToSave = username || values.name;
         localStorage.setItem('token', token);
-        setAuthToken(token);
-        dispatch(setUser(username || values.name));
+        localStorage.setItem('username', userNameToSave);
+        setAuthToken(token, userNameToSave);
         navigate('/');
       } catch {
         setError('the username or password is incorrect');
