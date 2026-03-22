@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { GENERAL_CHANNEL_ID } from '../constants';
+
 const channelsSlice = createSlice({
   name: 'channels',
   initialState: {
     items: [],
-    currentChannelId: '1', // General channel по умолчанию
+    currentChannelId: GENERAL_CHANNEL_ID, // General channel по умолчанию
     loading: false,
     error: null,
   },
@@ -33,6 +35,13 @@ const channelsSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(removeChannel, (state, action) => {
+      if (state.currentChannelId === action.payload.id) {
+        state.currentChannelId = GENERAL_CHANNEL_ID;
+      }
+    });
   },
 });
 

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { CONNECTION_STATUS } from '../constants';
+import { removeChannel } from './channelsSlice';
 
 const messagesSlice = createSlice({
   name: 'messages',
@@ -27,9 +28,6 @@ const messagesSlice = createSlice({
     removeMessage: (state, action) => {
       state.items = state.items.filter((msg) => msg.id !== action.payload.id);
     },
-    removeMessagesByChannelId: (state, action) => {
-      state.items = state.items.filter((msg) => msg.channelId !== action.payload);
-    },
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
@@ -40,6 +38,11 @@ const messagesSlice = createSlice({
       state.connectionStatus = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(removeChannel, (state, action) => {
+      state.items = state.items.filter((msg) => msg.channelId !== action.payload.id);
+    });
+  },
 });
 
 export const {
@@ -47,7 +50,6 @@ export const {
   addMessage,
   addNewMessage,
   removeMessage,
-  removeMessagesByChannelId,
   setLoading,
   setError,
   setConnectionStatus,

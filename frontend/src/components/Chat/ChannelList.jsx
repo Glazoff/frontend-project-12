@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { ListGroup, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { ListGroup, Spinner } from 'react-bootstrap';
 
 import { setCurrentChannelId, removeChannel } from '../../store/channelsSlice';
-import { removeMessagesByChannelId } from '../../store/messagesSlice';
 import { RemoveChannelModal } from './RemoveChannelModal';
 import { removeChannel as removeChannelApi } from '../../api/channels';
-import { GENERAL_CHANNEL_ID } from '../../constants';
 
 export function ChannelList() {
   const dispatch = useDispatch();
@@ -26,8 +24,6 @@ export function ChannelList() {
     try {
       await removeChannelApi(channelToDelete.id);
       dispatch(removeChannel({ id: channelToDelete.id }));
-      dispatch(removeMessagesByChannelId(channelToDelete.id));
-      dispatch(setCurrentChannelId(GENERAL_CHANNEL_ID));
       handleCloseModal();
     } catch (err) {
       console.error('Failed to delete channel:', err);

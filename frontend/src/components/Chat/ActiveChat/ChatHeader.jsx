@@ -6,9 +6,7 @@ import { CONNECTION_STATUS } from '../../../constants';
 import { RemoveChannelModal } from '../RemoveChannelModal';
 import { RenameChannelModal } from '../RenameChannelModal';
 import { removeChannel as removeChannelApi, editChannel as editChannelApi } from '../../../api/channels';
-import { removeChannel, setCurrentChannelId } from '../../../store/channelsSlice';
-import { removeMessagesByChannelId } from '../../../store/messagesSlice';
-import { GENERAL_CHANNEL_ID } from '../../../constants';
+import { removeChannel } from '../../../store/channelsSlice';
 
 export function ChatHeader() {
   const dispatch = useDispatch();
@@ -32,8 +30,6 @@ export function ChatHeader() {
     try {
       await removeChannelApi(currentChannel.id);
       dispatch(removeChannel({ id: currentChannel.id }));
-      dispatch(removeMessagesByChannelId(currentChannel.id));
-      dispatch(setCurrentChannelId(GENERAL_CHANNEL_ID));
       handleCloseRemoveModal();
     } catch (err) {
       console.error('Failed to delete channel:', err);

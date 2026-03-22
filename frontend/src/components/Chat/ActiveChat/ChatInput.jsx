@@ -41,8 +41,12 @@ export function ChatInput() {
   return (
     <div className="bg-light p-3">
       <Form className="d-flex gap-2" onSubmit={handleSubmit}>
+        <label htmlFor="messageInput" style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', border: 0 }}>
+          Введите сообщение
+        </label>
         <Form.Control
           ref={inputRef}
+          id="messageInput"
           type="text"
           placeholder="Введите сообщение..."
           value={messageText}

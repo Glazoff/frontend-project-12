@@ -5,9 +5,9 @@ import { ChatLayout } from '../../components/Chat';
 import { initSocket } from '../../api/socket';
 import { useChat } from '../../hooks/useChat.jsx';
 import { useAuth } from '../../hooks/useAuth';
-import { addChannel, removeChannel, renameChannel, setCurrentChannelId } from '../../store/channelsSlice';
-import { addNewMessage, setConnectionStatus, removeMessagesByChannelId } from '../../store/messagesSlice';
-import { GENERAL_CHANNEL_ID, CONNECTION_STATUS } from '../../constants';
+import { addChannel, removeChannel, renameChannel } from '../../store/channelsSlice';
+import { addNewMessage, setConnectionStatus } from '../../store/messagesSlice';
+import { CONNECTION_STATUS } from '../../constants';
 
 export function Main() {
   const { token } = useAuth();
@@ -32,13 +32,10 @@ export function Main() {
 
     socket.on('removeChannel', (payload) => {
       dispatch(removeChannel(payload));
-      dispatch(removeMessagesByChannelId(payload.id));
-      dispatch(setCurrentChannelId(GENERAL_CHANNEL_ID));
     });
 
     socket.on('renameChannel', (payload) => {
       dispatch(renameChannel(payload));
-      // Если переименовали текущий канал, закрываем модалку (если открыта)
     });
 
     socket.on('disconnect', () => {
