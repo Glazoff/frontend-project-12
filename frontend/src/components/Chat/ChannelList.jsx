@@ -1,11 +1,15 @@
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, Spinner } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
 export function ChannelList() {
   const { items: channels, loading, error } = useSelector((state) => state.channels);
 
   if (loading) {
-    return <div className="text-center p-3">Загрузка каналов...</div>;
+    return (
+      <div className="text-center p-3">
+        <Spinner animation="border" size="sm" />
+      </div>
+    );
   }
 
   if (error) {
