@@ -1,5 +1,4 @@
-export const AUTH_TOKEN_KEY = 'token';
-export const AUTH_USERNAME_KEY = 'username';
+import { AUTH_TOKEN_KEY, AUTH_USERNAME_KEY } from '../constants';
 
 export function useAuth() {
   const token = localStorage.getItem(AUTH_TOKEN_KEY);

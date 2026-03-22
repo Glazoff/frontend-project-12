@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { AUTH_TOKEN_KEY, AUTH_USERNAME_KEY } from '../hooks/useAuth';
+import { AUTH_TOKEN_KEY, AUTH_USERNAME_KEY } from '../constants';
 
 const api = axios.create({
   baseURL: '/api/v1',

@@ -2,15 +2,16 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Button, Spinner } from 'react-bootstrap';
 
-import { CONNECTION_STATUS } from '../../../store/messagesSlice';
+import { CONNECTION_STATUS } from '../../../constants';
 import { useChat } from '../../../hooks/useChat.jsx';
 import { useAuth } from '../../../hooks/useAuth';
 
-export function ChatInput({ connectionStatus }) {
+export function ChatInput() {
   const [messageText, setMessageText] = useState('');
   const { sendMessage, isSending } = useChat();
   const { currentChannelId } = useSelector((state) => state.channels);
   const { username } = useAuth();
+  const { connectionStatus } = useSelector((state) => state.messages);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
