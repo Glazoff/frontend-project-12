@@ -4,6 +4,7 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState: {
     items: [],
+    currentChannelId: '1', // General channel по умолчанию
     loading: false,
     error: null,
   },
@@ -23,6 +24,9 @@ const channelsSlice = createSlice({
         channel.name = action.payload.name;
       }
     },
+    setCurrentChannelId: (state, action) => {
+      state.currentChannelId = action.payload;
+    },
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
@@ -37,6 +41,7 @@ export const {
   addChannel,
   removeChannel,
   renameChannel,
+  setCurrentChannelId,
   setLoading,
   setError,
 } = channelsSlice.actions;

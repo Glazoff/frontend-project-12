@@ -2,6 +2,10 @@ import { useSelector } from 'react-redux';
 
 export function ChatMessages() {
   const { items: messages, loading, error } = useSelector((state) => state.messages);
+  const { currentChannelId } = useSelector((state) => state.channels);
+
+  // Фильтрация сообщений по текущему каналу
+  const channelMessages = messages.filter((msg) => msg.channelId === currentChannelId);
 
   if (loading) {
     return (
@@ -18,19 +22,15 @@ export function ChatMessages() {
     return <div className="alert alert-danger">Ошибка: {error}</div>;
   }
 
-  if (messages.length === 0) {
+  if (channelMessages.length === 0) {
     return <div className="text-center text-muted">Сообщений пока нет</div>;
   }
 
   return (
     <ul className="list-unstyled mb-0">
-      {messages.map((message) => (
+      {channelMessages.map((message) => (
         <li key={message.id} className="mb-2">
-          <strong>{message.username}</strong>
-          <span className="text-muted ms-2">
-            [{new Date(message.createdAt).toLocaleTimeString()}]
-          </span>
-          <div>{message.body}</div>
+          <strong>{message.username}:</strong> {message.body}
         </li>
       ))}
     </ul>

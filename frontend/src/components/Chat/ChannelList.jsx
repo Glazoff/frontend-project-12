@@ -1,8 +1,15 @@
 import { ListGroup, Spinner } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setCurrentChannelId } from '../../store/channelsSlice';
 
 export function ChannelList() {
-  const { items: channels, loading, error } = useSelector((state) => state.channels);
+  const dispatch = useDispatch();
+  const { items: channels, loading, error, currentChannelId } = useSelector((state) => state.channels);
+
+  const handleSelectChannel = (channelId) => {
+    dispatch(setCurrentChannelId(channelId));
+  };
 
   if (loading) {
     return (
@@ -19,7 +26,12 @@ export function ChannelList() {
   return (
     <ListGroup variant="flush">
       {channels.map((channel) => (
-        <ListGroup.Item key={channel.id} action>
+        <ListGroup.Item
+          key={channel.id}
+          action
+          active={channel.id === currentChannelId}
+          onClick={() => handleSelectChannel(channel.id)}
+        >
           {channel.name}
         </ListGroup.Item>
       ))}
