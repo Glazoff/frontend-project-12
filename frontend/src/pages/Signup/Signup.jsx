@@ -1,13 +1,29 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 import { setAuthToken } from '../../api';
-import { login } from '../../api/auth';
+import { signup } from '../../api/auth';
 
-export function Login() {
+const validationSchema = yup.object({
+  name: yup
+    .string()
+    .required('Name is required')
+    .min(3, 'Name must be between 3 and 20 characters')
+    .max(20, 'Name must be between 3 and 20 characters'),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters'),
+  confirmPassword: yup
+    .string()
+    .required('Password confirmation is required')
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
+});
+
+export function Signup() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -15,17 +31,19 @@ export function Login() {
     initialValues: {
       name: '',
       password: '',
+      confirmPassword: '',
     },
+    validationSchema,
     onSubmit: async (values, actions) => {
       try {
-        const { token, username } = await login(values);
+        const { token, username } = await signup(values);
         const userNameToSave = username || values.name;
         localStorage.setItem('token', token);
         localStorage.setItem('username', userNameToSave);
         setAuthToken(token, userNameToSave);
         navigate('/');
       } catch {
-        setError('the username or password is incorrect');
+        setError('Signup failed. Please try again.');
       } finally {
         actions.setSubmitting(false);
       }
@@ -38,7 +56,7 @@ export function Login() {
         <Col xs={12} sm={8} md={6} lg={4}>
           <Card shadow="sm">
             <Card.Header className="bg-light">
-              <h4 className="mb-0 text-center">Вход</h4>
+              <h4 className="mb-0 text-center">Регистрация</h4>
             </Card.Header>
             <Card.Body>
               {error && (
@@ -56,8 +74,12 @@ export function Login() {
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.name && !!formik.errors.name}
                     disabled={formik.isSubmitting}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.name}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formPassword">
@@ -69,8 +91,29 @@ export function Login() {
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.password && !!formik.errors.password}
                     disabled={formik.isSubmitting}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.password}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formConfirmPassword">
+                  <Form.Label>Подтверждение пароля</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Повторите пароль"
+                    value={formik.values.confirmPassword}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
+                    disabled={formik.isSubmitting}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.confirmPassword}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button
@@ -79,13 +122,9 @@ export function Login() {
                   className="w-100"
                   disabled={formik.isSubmitting}
                 >
-                  {formik.isSubmitting ? 'Вход...' : 'Войти'}
+                  {formik.isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
                 </Button>
               </Form>
-              <div className="text-center mt-3">
-                <span>Нет аккаунта? </span>
-                <Link to="/signup">Зарегистрироваться</Link>
-              </div>
             </Card.Body>
           </Card>
         </Col>
