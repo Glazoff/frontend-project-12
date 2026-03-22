@@ -38,6 +38,7 @@ export function Main() {
 
     socket.on('renameChannel', (payload) => {
       dispatch(renameChannel(payload));
+      // Если переименовали текущий канал, закрываем модалку (если открыта)
     });
 
     socket.on('disconnect', () => {

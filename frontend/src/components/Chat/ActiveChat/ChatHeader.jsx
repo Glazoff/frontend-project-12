@@ -4,7 +4,8 @@ import { Spinner, Button } from 'react-bootstrap';
 
 import { CONNECTION_STATUS } from '../../../constants';
 import { RemoveChannelModal } from '../RemoveChannelModal';
-import { removeChannel as removeChannelApi } from '../../../api/channels';
+import { RenameChannelModal } from '../RenameChannelModal';
+import { removeChannel as removeChannelApi, editChannel as editChannelApi } from '../../../api/channels';
 import { removeChannel, setCurrentChannelId } from '../../../store/channelsSlice';
 import { removeMessagesByChannelId } from '../../../store/messagesSlice';
 import { GENERAL_CHANNEL_ID } from '../../../constants';
@@ -14,11 +15,14 @@ export function ChatHeader() {
   const { connectionStatus } = useSelector((state) => state.messages);
   const { items: channels, currentChannelId } = useSelector((state) => state.channels);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [showRenameModal, setShowRenameModal] = useState(false);
 
   const currentChannel = channels.find((ch) => ch.id === currentChannelId);
 
   const handleOpenRemoveModal = () => setShowRemoveModal(true);
   const handleCloseRemoveModal = () => setShowRemoveModal(false);
+  const handleOpenRenameModal = () => setShowRenameModal(true);
+  const handleCloseRenameModal = () => setShowRenameModal(false);
 
   const handleConfirmDelete = async () => {
     if (!currentChannel) return;
@@ -33,6 +37,16 @@ export function ChatHeader() {
     }
   };
 
+  const handleConfirmRename = async (newName) => {
+    if (!currentChannel || !newName) return;
+    try {
+      await editChannelApi(currentChannel.id, { name: newName });
+    } catch (err) {
+      console.error('Failed to rename channel:', err);
+      throw err;
+    }
+  };
+
   return (
     <>
       <div className="bg-light d-flex justify-content-between align-items-center">
@@ -42,16 +56,31 @@ export function ChatHeader() {
             <Spinner animation="border" size="sm" variant="warning" />
           )}
           {currentChannel?.removable && (
-            <Button
-              variant="danger"
-              size="sm"
-              onClick={handleOpenRemoveModal}
-            >
-              Delete
-            </Button>
+            <>
+              <Button
+                variant="outline-secondary"
+                size="sm"
+                onClick={handleOpenRenameModal}
+              >
+                Rename
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={handleOpenRemoveModal}
+              >
+                Delete
+              </Button>
+            </>
           )}
         </div>
       </div>
+      <RenameChannelModal
+        show={showRenameModal}
+        handleClose={handleCloseRenameModal}
+        handleConfirm={handleConfirmRename}
+        channel={currentChannel}
+      />
       <RemoveChannelModal
         show={showRemoveModal}
         handleClose={handleCloseRemoveModal}
