@@ -18,7 +18,11 @@ const channelsSlice = createSlice({
       state.items.push(action.payload);
     },
     removeChannel: (state, action) => {
-      state.items = state.items.filter((channel) => channel.id !== action.payload.id);
+      const removedChannelId = action.payload.id;
+      state.items = state.items.filter((channel) => channel.id !== removedChannelId);
+      if (state.currentChannelId === removedChannelId) {
+        state.currentChannelId = GENERAL_CHANNEL_ID;
+      }
     },
     renameChannel: (state, action) => {
       const channel = state.items.find((ch) => ch.id === action.payload.id);
@@ -35,13 +39,6 @@ const channelsSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(removeChannel, (state, action) => {
-      if (state.currentChannelId === action.payload.id) {
-        state.currentChannelId = GENERAL_CHANNEL_ID;
-      }
-    });
   },
 });
 
