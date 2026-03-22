@@ -42,8 +42,8 @@ export function Signup() {
         localStorage.setItem('username', userNameToSave);
         setAuthToken(token, userNameToSave);
         navigate('/');
-      } catch {
-        setError('Signup failed. Please try again.');
+      } catch (err) {
+        setError(err.message || 'Ошибка при регистрации. Попробуйте снова.');
       } finally {
         actions.setSubmitting(false);
       }
