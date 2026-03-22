@@ -1,5 +1,7 @@
-export { Chat } from './Chat';
+export { ChatLayout } from './ChatLayout';
 export { ChannelList } from './ChannelList';
-export { ChatMessageList } from './ChatMessageList';
-export { ChatInput } from './ChatInput';
-export { ConnectionStatus } from './ConnectionStatus';
+export { ConnectionStatusAlert } from './ConnectionStatusAlert';
+export { ActiveChat } from './ActiveChat';
+export { ChatHeader } from './ActiveChat/ChatHeader';
+export { ChatMessages } from './ActiveChat/ChatMessages';
+export { ChatInput } from './ActiveChat/ChatInput';

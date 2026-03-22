@@ -1,17 +1,25 @@
 import { useState } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 
-import { ConnectionStatus } from './ConnectionStatus';
-import { CONNECTION_STATUS } from '../../store/messagesSlice';
+import { CONNECTION_STATUS } from '../../../store/messagesSlice';
+import { useChat } from '../../../hooks/useChat';
 
-export function ChatInput({ onSendMessage, isSending, connectionStatus }) {
+const DEFAULT_CHANNEL_ID = '1';
+
+export function ChatInput({ connectionStatus }) {
   const [messageText, setMessageText] = useState('');
+  const { sendMessage, isSending } = useChat();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!messageText.trim() || isSending) return;
 
-    const success = await onSendMessage(messageText.trim());
+    const messageData = {
+      body: messageText.trim(),
+      channelId: DEFAULT_CHANNEL_ID,
+    };
+
+    const success = await sendMessage(messageData);
     if (success) {
       setMessageText('');
     }
@@ -21,7 +29,6 @@ export function ChatInput({ onSendMessage, isSending, connectionStatus }) {
 
   return (
     <div className="bg-light p-3">
-      <ConnectionStatus status={connectionStatus} />
       <Form className="d-flex gap-2" onSubmit={handleSubmit}>
         <Form.Control
           type="text"

@@ -1,5 +1,19 @@
-import { Chat } from '../../components/Chat';
+import { useEffect } from 'react';
+
+import { ChatLayout } from '../../components/Chat';
+import { useSocket } from '../../hooks/useSocket';
+import { useChat } from '../../hooks/useChat';
+import { useAuth } from '../../hooks/useAuth';
 
 export function Main() {
-  return <Chat />;
+  const { token } = useAuth();
+  const { fetchData } = useChat();
+  useSocket(token);
+
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return <ChatLayout />;
 }

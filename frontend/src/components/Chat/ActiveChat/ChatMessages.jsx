@@ -1,24 +1,21 @@
-import { useRef, useEffect } from 'react';
-import { Alert, Spinner } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
-export function ChatMessageList({ messages, loading, error }) {
-  const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+export function ChatMessages() {
+  const { items: messages, loading, error } = useSelector((state) => state.messages);
 
   if (loading) {
     return (
       <div className="text-center">
-        <Spinner animation="border" />
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Загрузка...</span>
+        </div>
         <div className="mt-2">Загрузка сообщений...</div>
       </div>
     );
   }
 
   if (error) {
-    return <Alert variant="danger">Ошибка: {error}</Alert>;
+    return <div className="alert alert-danger">Ошибка: {error}</div>;
   }
 
   if (messages.length === 0) {
@@ -36,7 +33,6 @@ export function ChatMessageList({ messages, loading, error }) {
           <div>{message.body}</div>
         </li>
       ))}
-      <div ref={messagesEndRef} />
     </ul>
   );
 }
