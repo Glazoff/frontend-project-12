@@ -12,10 +12,27 @@ import { CONNECTION_STATUS } from '../../store/messagesSlice';
 
 const DEFAULT_CHANNEL_ID = '1';
 
+function ChannelsSection() {
+  const { loading, error } = useSelector((state) => state.channels);
+
+  if (loading) {
+    return (
+      <div className="text-center p-3">
+        <Spinner animation="border" size="sm" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="text-danger p-3">Ошибка: {error}</div>;
+  }
+
+  return <ChannelList />;
+}
+
 export function Chat() {
   const { token } = useAuth();
   const { items: messages, loading: messagesLoading, error: messagesError, connectionStatus } = useSelector((state) => state.messages);
-  const { loading: channelsLoading, error: channelsError } = useSelector((state) => state.channels);
 
   const { fetchData, sendMessage, isSending } = useChat();
   useSocket(token);
@@ -42,15 +59,7 @@ export function Chat() {
               <h5 className="mb-0">Каналы</h5>
             </Card.Header>
             <Card.Body className="p-0 overflow-auto">
-              {channelsLoading ? (
-                <div className="text-center p-3">
-                  <Spinner animation="border" size="sm" />
-                </div>
-              ) : channelsError ? (
-                <div className="text-danger p-3">Ошибка: {channelsError}</div>
-              ) : (
-                <ChannelList />
-              )}
+              <ChannelsSection />
             </Card.Body>
           </Card>
         </Col>
