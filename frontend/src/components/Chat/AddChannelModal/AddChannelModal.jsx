@@ -7,10 +7,12 @@ import { useTranslation } from 'react-i18next';
 
 import { addChannel } from '../../../api/channels';
 import { setCurrentChannelId } from '../../../store/channelsSlice';
+import { useToastNotifications } from '../../ToastNotification';
 
 export function AddChannelModal({ show, handleClose }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { showToast } = useToastNotifications();
   const { items: channels } = useSelector((state) => state.channels);
   const [error, setError] = useState('');
   const inputRef = useRef(null);
@@ -52,8 +54,10 @@ export function AddChannelModal({ show, handleClose }) {
         dispatch(setCurrentChannelId(newChannel.id));
         handleClose();
         actions.resetForm();
+        showToast.success(t('chat.notifications.channelCreated', { name: newChannel.name }));
       } catch {
         setError(t('chat.addChannelModal.errors.createError'));
+        showToast.error(t('chat.notifications.channelCreateError'));
       } finally {
         actions.setSubmitting(false);
       }

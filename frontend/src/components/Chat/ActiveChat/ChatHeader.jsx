@@ -1,18 +1,17 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Spinner, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-
-import { CONNECTION_STATUS } from '../../../constants';
 import { RemoveChannelModal } from '../RemoveChannelModal';
 import { RenameChannelModal } from '../RenameChannelModal';
 import { removeChannel as removeChannelApi, editChannel as editChannelApi } from '../../../api/channels';
 import { removeChannel } from '../../../store/channelsSlice';
+import { useToastNotifications } from '../../ToastNotification';
 
 export function ChatHeader() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { connectionStatus } = useSelector((state) => state.messages);
+  const { showToast } = useToastNotifications();
   const { items: channels, currentChannelId } = useSelector((state) => state.channels);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [showRenameModal, setShowRenameModal] = useState(false);
@@ -33,8 +32,10 @@ export function ChatHeader() {
       await removeChannelApi(currentChannel.id);
       dispatch(removeChannel({ id: currentChannel.id }));
       handleCloseRemoveModal();
+      showToast.success(t('chat.notifications.channelDeleted', { name: currentChannel.name }));
     } catch (err) {
       console.error('Failed to delete channel:', err);
+      showToast.error(t('chat.notifications.channelDeleteError'));
     } finally {
       setIsDeleting(false);
     }
@@ -45,8 +46,10 @@ export function ChatHeader() {
     setIsRenaming(true);
     try {
       await editChannelApi(currentChannel.id, { name: newName });
+      showToast.success(t('chat.notifications.channelRenamed', { name: newName }));
     } catch (err) {
       console.error('Failed to rename channel:', err);
+      showToast.error(t('chat.notifications.channelRenameError'));
       throw err;
     } finally {
       setIsRenaming(false);
@@ -58,9 +61,6 @@ export function ChatHeader() {
       <div className="bg-light d-flex justify-content-between align-items-center">
         <h5 className="mb-0"># {currentChannel?.name || t('chat.chatHeader.defaultName')}</h5>
         <div className="d-flex align-items-center gap-2">
-          {connectionStatus !== CONNECTION_STATUS.CONNECTED && (
-            <Spinner animation="border" size="sm" variant="warning" />
-          )}
           {currentChannel?.removable && (
             <>
               <Button

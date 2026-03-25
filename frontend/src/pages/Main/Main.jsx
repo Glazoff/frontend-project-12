@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { ChatLayout } from '../../components/Chat';
 import { initSocket } from '../../api/socket';
@@ -8,11 +9,14 @@ import { useAuth } from '../../hooks/useAuth';
 import { addChannel, removeChannel, renameChannel } from '../../store/channelsSlice';
 import { addNewMessage, setConnectionStatus } from '../../store/messagesSlice';
 import { CONNECTION_STATUS } from '../../constants';
+import { useToastNotifications } from '../../components/ToastNotification';
 
 export function Main() {
   const { token } = useAuth();
   const { fetchData } = useChat();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const { showToast } = useToastNotifications();
 
   useEffect(() => {
     fetchData();
@@ -40,14 +44,25 @@ export function Main() {
 
     socket.on('disconnect', () => {
       dispatch(setConnectionStatus(CONNECTION_STATUS.DISCONNECTED));
+      showToast.warning(t('chat.notifications.connectionLost'));
     });
 
     socket.on('connect', () => {
-      dispatch(setConnectionStatus(CONNECTION_STATUS.CONNECTED));
+      dispatch(setConnectionStatus((prevStatus) => {
+        if (prevStatus !== CONNECTION_STATUS.CONNECTED) {
+          showToast.success(t('chat.notifications.connectionRestored'));
+        }
+        return CONNECTION_STATUS.CONNECTED;
+      }));
     });
 
     socket.on('reconnecting', () => {
       dispatch(setConnectionStatus(CONNECTION_STATUS.RECONNECTING));
+      showToast.info(t('common.errors.reconnecting'));
+    });
+
+    socket.on('connect_error', () => {
+      showToast.error(t('common.errors.networkError'));
     });
 
     return () => {
@@ -58,8 +73,9 @@ export function Main() {
       socket.off('disconnect');
       socket.off('connect');
       socket.off('reconnecting');
+      socket.off('connect_error');
     };
-  }, [token, dispatch]);
+  }, [token, dispatch, t, showToast]);
 
   return <ChatLayout />;
 }
