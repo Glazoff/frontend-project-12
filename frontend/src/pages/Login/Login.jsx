@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 import { setAuthToken } from '../../api';
 import { login } from '../../api/auth';
 
 export function Login() {
+  const { t } = useTranslation();
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ export function Login() {
         setAuthToken(token, userNameToSave);
         navigate('/');
       } catch {
-        setError('the username or password is incorrect');
+        setError(t('auth.login.errors.invalidCredentials'));
       } finally {
         actions.setSubmitting(false);
       }
@@ -38,7 +40,7 @@ export function Login() {
         <Col xs={12} sm={8} md={6} lg={4}>
           <Card shadow="sm">
             <Card.Header className="bg-light">
-              <h4 className="mb-0 text-center">Вход</h4>
+              <h4 className="mb-0 text-center">{t('auth.login.title')}</h4>
             </Card.Header>
             <Card.Body>
               {error && (
@@ -48,11 +50,11 @@ export function Login() {
               )}
               <Form onSubmit={formik.handleSubmit}>
                 <Form.Group className="mb-3" controlId="formName">
-                  <Form.Label>Имя пользователя</Form.Label>
+                  <Form.Label>{t('auth.login.usernameLabel')}</Form.Label>
                   <Form.Control
                     type="text"
                     name="name"
-                    placeholder="Введите имя"
+                    placeholder={t('auth.login.usernamePlaceholder')}
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -61,11 +63,11 @@ export function Login() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formPassword">
-                  <Form.Label>Пароль</Form.Label>
+                  <Form.Label>{t('auth.login.passwordLabel')}</Form.Label>
                   <Form.Control
                     type="password"
                     name="password"
-                    placeholder="Введите пароль"
+                    placeholder={t('auth.login.passwordPlaceholder')}
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -79,12 +81,12 @@ export function Login() {
                   className="w-100"
                   disabled={formik.isSubmitting}
                 >
-                  {formik.isSubmitting ? 'Вход...' : 'Войти'}
+                  {formik.isSubmitting ? t('auth.login.submitting') : t('auth.login.submit')}
                 </Button>
               </Form>
               <div className="text-center mt-3">
-                <span>Нет аккаунта? </span>
-                <Link to="/signup">Зарегистрироваться</Link>
+                <span>{t('auth.login.noAccount')} </span>
+                <Link to="/signup">{t('auth.login.signupLink')}</Link>
               </div>
             </Card.Body>
           </Card>

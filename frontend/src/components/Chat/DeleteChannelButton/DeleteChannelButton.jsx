@@ -1,4 +1,8 @@
+import { useTranslation } from 'react-i18next';
+
 export function DeleteChannelButton({ onClick }) {
+  const { t } = useTranslation();
+
   return (
     <span
       role="button"
@@ -23,7 +27,7 @@ export function DeleteChannelButton({ onClick }) {
         e.currentTarget.style.opacity = 0;
       }}
     >
-      Delete
+      {t('chat.deleteChannelButton.label')}
     </span>
   );
 }

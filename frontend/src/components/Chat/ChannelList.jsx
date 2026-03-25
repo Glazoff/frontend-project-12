@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListGroup, Spinner } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import { setCurrentChannelId, removeChannel } from '../../store/channelsSlice';
 import { RemoveChannelModal } from './RemoveChannelModal';
 import { removeChannel as removeChannelApi } from '../../api/channels';
 
 export function ChannelList() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { items: channels, loading, error, currentChannelId } = useSelector((state) => state.channels);
   const [channelToDelete, setChannelToDelete] = useState(null);
@@ -39,7 +41,7 @@ export function ChannelList() {
   }
 
   if (error) {
-    return <div className="text-danger p-3">Ошибка: {error}</div>;
+    return <div className="text-danger p-3">{t('chat.channelList.error', { error })}</div>;
   }
 
   return (

@@ -1,23 +1,32 @@
 import { Modal, Button } from 'react-bootstrap';
+import { Trans, useTranslation } from 'react-i18next';
 
 export function RemoveChannelModal({ show, handleClose, handleConfirm, channelName, isDeleting }) {
+  const { t } = useTranslation();
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Удаление канала</Modal.Title>
+        <Modal.Title>{t('chat.removeChannelModal.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Вы уверены, что хотите удалить канал <strong>{channelName}</strong>?</p>
+        <p>
+          <Trans
+            i18nKey="chat.removeChannelModal.confirmMessage"
+            values={{ name: channelName }}
+            components={{ strong: <strong /> }}
+          />
+        </p>
         <p className="text-muted small">
-          Все сообщения этого канала будут удалены, а пользователи перемещены в канал General.
+          {t('chat.removeChannelModal.warning')}
         </p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose} disabled={isDeleting}>
-          Отмена
+          {t('common.buttons.cancel')}
         </Button>
         <Button variant="danger" onClick={handleConfirm} disabled={isDeleting}>
-          {isDeleting ? 'Удаление...' : 'Удалить'}
+          {isDeleting ? t('common.status.deleting') : t('common.buttons.delete')}
         </Button>
       </Modal.Footer>
     </Modal>

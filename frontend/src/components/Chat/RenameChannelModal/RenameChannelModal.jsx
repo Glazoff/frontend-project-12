@@ -3,8 +3,10 @@ import { useSelector } from 'react-redux';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 export function RenameChannelModal({ show, handleClose, handleConfirm, channel, isRenaming }) {
+  const { t } = useTranslation();
   const { items: channels } = useSelector((state) => state.channels);
   const [error, setError] = useState('');
   const inputRef = useRef(null);
@@ -18,12 +20,12 @@ export function RenameChannelModal({ show, handleClose, handleConfirm, channel, 
   const validationSchema = yup.object({
     name: yup
       .string()
-      .required('Название канала обязательно')
-      .min(3, 'Минимум 3 символа')
-      .max(20, 'Максимум 20 символов')
+      .required(t('chat.renameChannelModal.errors.nameRequired'))
+      .min(3, t('chat.renameChannelModal.errors.nameMinLength'))
+      .max(20, t('chat.renameChannelModal.errors.nameMaxLength'))
       .test(
         'is-unique',
-        'Канал с таким именем уже существует',
+        t('chat.renameChannelModal.errors.nameExists'),
         (value) => {
           if (!value || !channel || !channels) return true;
           return !channels.some(
@@ -49,7 +51,7 @@ export function RenameChannelModal({ show, handleClose, handleConfirm, channel, 
         handleClose();
         actions.resetForm();
       } catch {
-        setError('Ошибка при переименовании канала');
+        setError(t('chat.renameChannelModal.errors.renameError'));
       } finally {
         actions.setSubmitting(false);
       }
@@ -59,18 +61,18 @@ export function RenameChannelModal({ show, handleClose, handleConfirm, channel, 
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('chat.renameChannelModal.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {error && <Alert variant="danger">{error}</Alert>}
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3" controlId="channelName">
-            <Form.Label>Название канала</Form.Label>
+            <Form.Label>{t('chat.renameChannelModal.nameLabel')}</Form.Label>
             <Form.Control
               ref={inputRef}
               type="text"
               name="name"
-              placeholder="Введите название"
+              placeholder={t('chat.renameChannelModal.namePlaceholder')}
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -85,14 +87,14 @@ export function RenameChannelModal({ show, handleClose, handleConfirm, channel, 
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose} disabled={isRenaming}>
-          Отмена
+          {t('common.buttons.cancel')}
         </Button>
         <Button
           variant="primary"
           onClick={formik.handleSubmit}
           disabled={formik.isSubmitting || isRenaming}
         >
-          {formik.isSubmitting || isRenaming ? 'Сохранение...' : 'Сохранить'}
+          {formik.isSubmitting || isRenaming ? t('common.status.saving') : t('common.buttons.save')}
         </Button>
       </Modal.Footer>
     </Modal>
