@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Button, Spinner } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import { CONNECTION_STATUS } from '../../../constants';
 import { useChat } from '../../../hooks/useChat.jsx';
 import { useAuth } from '../../../hooks/useAuth';
 
 export function ChatInput() {
+  const { t } = useTranslation();
   const [messageText, setMessageText] = useState('');
   const { sendMessage, isSending } = useChat();
   const { currentChannelId } = useSelector((state) => state.channels);
@@ -42,13 +44,13 @@ export function ChatInput() {
     <div className="bg-light p-3">
       <Form className="d-flex gap-2" onSubmit={handleSubmit}>
         <label htmlFor="messageInput" style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', border: 0 }}>
-          Введите сообщение
+          {t('chat.chatInput.label')}
         </label>
         <Form.Control
           ref={inputRef}
           id="messageInput"
           type="text"
-          placeholder="Введите сообщение..."
+          placeholder={t('chat.chatInput.placeholder')}
           value={messageText}
           onChange={(e) => setMessageText(e.target.value)}
           disabled={isDisabled}
@@ -58,7 +60,7 @@ export function ChatInput() {
           variant="primary"
           disabled={isDisabled || !messageText.trim()}
         >
-          {isSending ? <Spinner animation="border" size="sm" /> : 'Отправить'}
+          {isSending ? <Spinner animation="border" size="sm" /> : t('common.buttons.send')}
         </Button>
       </Form>
     </div>

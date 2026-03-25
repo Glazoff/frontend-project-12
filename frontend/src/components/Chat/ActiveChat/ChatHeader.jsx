@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spinner, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import { CONNECTION_STATUS } from '../../../constants';
 import { RemoveChannelModal } from '../RemoveChannelModal';
@@ -9,6 +10,7 @@ import { removeChannel as removeChannelApi, editChannel as editChannelApi } from
 import { removeChannel } from '../../../store/channelsSlice';
 
 export function ChatHeader() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { connectionStatus } = useSelector((state) => state.messages);
   const { items: channels, currentChannelId } = useSelector((state) => state.channels);
@@ -54,7 +56,7 @@ export function ChatHeader() {
   return (
     <>
       <div className="bg-light d-flex justify-content-between align-items-center">
-        <h5 className="mb-0"># {currentChannel?.name || 'Чат'}</h5>
+        <h5 className="mb-0"># {currentChannel?.name || t('chat.chatHeader.defaultName')}</h5>
         <div className="d-flex align-items-center gap-2">
           {connectionStatus !== CONNECTION_STATUS.CONNECTED && (
             <Spinner animation="border" size="sm" variant="warning" />
@@ -67,7 +69,7 @@ export function ChatHeader() {
                 onClick={handleOpenRenameModal}
                 disabled={isRenaming || isDeleting}
               >
-                Rename
+                {t('common.buttons.rename')}
               </Button>
               <Button
                 variant="danger"
@@ -75,7 +77,7 @@ export function ChatHeader() {
                 onClick={handleOpenRemoveModal}
                 disabled={isRenaming || isDeleting}
               >
-                Delete
+                {t('common.buttons.delete')}
               </Button>
             </>
           )}

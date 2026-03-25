@@ -1,0 +1,59 @@
+{
+  "layout": {
+    "channels": "Каналы",
+    "addChannel": "Добавить канал"
+  },
+  "channelList": {
+    "loading": "Загрузка каналов...",
+    "error": "Ошибка: {{error}}"
+  },
+  "chatHeader": {
+    "defaultName": "Чат"
+  },
+  "chatInput": {
+    "placeholder": "Введите сообщение...",
+    "label": "Введите сообщение"
+  },
+  "chatMessages": {
+    "loading": "Загрузка сообщений...",
+    "loadingLabel": "Загрузка...",
+    "error": "Ошибка: {{error}}",
+    "noMessages": "Сообщений пока нет"
+  },
+  "connectionStatus": {
+    "disconnected": "Нет соединения с сервером. Попытка переподключения...",
+    "reconnecting": "Переподключение к серверу..."
+  },
+  "addChannelModal": {
+    "title": "Новый канал",
+    "nameLabel": "Название канала",
+    "namePlaceholder": "Введите название",
+    "errors": {
+      "nameRequired": "Название канала обязательно",
+      "nameMinLength": "Минимум 3 символа",
+      "nameMaxLength": "Максимум 20 символов",
+      "nameExists": "Канал с таким именем уже существует",
+      "createError": "Ошибка при создании канала"
+    }
+  },
+  "renameChannelModal": {
+    "title": "Переименовать канал",
+    "nameLabel": "Название канала",
+    "namePlaceholder": "Введите название",
+    "errors": {
+      "nameRequired": "Название канала обязательно",
+      "nameMinLength": "Минимум 3 символа",
+      "nameMaxLength": "Максимум 20 символов",
+      "nameExists": "Канал с таким именем уже существует",
+      "renameError": "Ошибка при переименовании канала"
+    }
+  },
+  "removeChannelModal": {
+    "title": "Удаление канала",
+    "confirmMessage": "Вы уверены, что хотите удалить канал <strong>{{name}}</strong>?",
+    "warning": "Все сообщения этого канала будут удалены, а пользователи перемещены в канал General."
+  },
+  "deleteChannelButton": {
+    "label": "Delete"
+  }
+}

@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import { addChannel } from '../../../api/channels';
 import { setCurrentChannelId } from '../../../store/channelsSlice';
 
 export function AddChannelModal({ show, handleClose }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { items: channels } = useSelector((state) => state.channels);
   const [error, setError] = useState('');
@@ -22,12 +24,12 @@ export function AddChannelModal({ show, handleClose }) {
   const validationSchema = yup.object({
     name: yup
       .string()
-      .required('Название канала обязательно')
-      .min(3, 'Минимум 3 символа')
-      .max(20, 'Максимум 20 символов')
+      .required(t('chat.addChannelModal.errors.nameRequired'))
+      .min(3, t('chat.addChannelModal.errors.nameMinLength'))
+      .max(20, t('chat.addChannelModal.errors.nameMaxLength'))
       .test(
         'is-unique',
-        'Канал с таким именем уже существует',
+        t('chat.addChannelModal.errors.nameExists'),
         (value) => {
           if (!value) return true;
           return !channels.some(
@@ -51,7 +53,7 @@ export function AddChannelModal({ show, handleClose }) {
         handleClose();
         actions.resetForm();
       } catch {
-        setError('Ошибка при создании канала');
+        setError(t('chat.addChannelModal.errors.createError'));
       } finally {
         actions.setSubmitting(false);
       }
@@ -61,18 +63,18 @@ export function AddChannelModal({ show, handleClose }) {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Новый канал</Modal.Title>
+        <Modal.Title>{t('chat.addChannelModal.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {error && <Alert variant="danger">{error}</Alert>}
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3" controlId="channelName">
-            <Form.Label>Название канала</Form.Label>
+            <Form.Label>{t('chat.addChannelModal.nameLabel')}</Form.Label>
             <Form.Control
               ref={inputRef}
               type="text"
               name="name"
-              placeholder="Введите название"
+              placeholder={t('chat.addChannelModal.namePlaceholder')}
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -87,14 +89,14 @@ export function AddChannelModal({ show, handleClose }) {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Отмена
+          {t('common.buttons.cancel')}
         </Button>
         <Button
           variant="primary"
           onClick={formik.handleSubmit}
           disabled={formik.isSubmitting}
         >
-          {formik.isSubmitting ? 'Создание...' : 'Создать'}
+          {formik.isSubmitting ? t('common.status.creating') : t('common.buttons.create')}
         </Button>
       </Modal.Footer>
     </Modal>

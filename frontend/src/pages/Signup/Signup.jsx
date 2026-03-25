@@ -3,29 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import { setAuthToken } from '../../api';
 import { signup } from '../../api/auth';
 
-const validationSchema = yup.object({
-  name: yup
-    .string()
-    .required('Name is required')
-    .min(3, 'Name must be between 3 and 20 characters')
-    .max(20, 'Name must be between 3 and 20 characters'),
-  password: yup
-    .string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters'),
-  confirmPassword: yup
-    .string()
-    .required('Password confirmation is required')
-    .oneOf([yup.ref('password'), null], 'Passwords must match'),
-});
-
 export function Signup() {
+  const { t } = useTranslation();
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const validationSchema = yup.object({
+    name: yup
+      .string()
+      .required(t('auth.signup.errors.nameRequired'))
+      .min(3, t('auth.signup.errors.nameMinLength'))
+      .max(20, t('auth.signup.errors.nameMaxLength')),
+    password: yup
+      .string()
+      .required(t('auth.signup.errors.passwordRequired'))
+      .min(6, t('auth.signup.errors.passwordMinLength')),
+    confirmPassword: yup
+      .string()
+      .required(t('auth.signup.errors.confirmPasswordRequired'))
+      .oneOf([yup.ref('password'), null], t('common.validation.passwordsMatch')),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -43,7 +45,7 @@ export function Signup() {
         setAuthToken(token, userNameToSave);
         navigate('/');
       } catch (err) {
-        setError(err.message || 'Ошибка при регистрации. Попробуйте снова.');
+        setError(err.message || t('auth.signup.errors.generic'));
       } finally {
         actions.setSubmitting(false);
       }
@@ -56,7 +58,7 @@ export function Signup() {
         <Col xs={12} sm={8} md={6} lg={4}>
           <Card shadow="sm">
             <Card.Header className="bg-light">
-              <h4 className="mb-0 text-center">Регистрация</h4>
+              <h4 className="mb-0 text-center">{t('auth.signup.title')}</h4>
             </Card.Header>
             <Card.Body>
               {error && (
@@ -66,11 +68,11 @@ export function Signup() {
               )}
               <Form onSubmit={formik.handleSubmit}>
                 <Form.Group className="mb-3" controlId="formName">
-                  <Form.Label>Имя пользователя</Form.Label>
+                  <Form.Label>{t('auth.signup.usernameLabel')}</Form.Label>
                   <Form.Control
                     type="text"
                     name="name"
-                    placeholder="Введите имя"
+                    placeholder={t('auth.signup.usernamePlaceholder')}
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -83,11 +85,11 @@ export function Signup() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formPassword">
-                  <Form.Label>Пароль</Form.Label>
+                  <Form.Label>{t('auth.signup.passwordLabel')}</Form.Label>
                   <Form.Control
                     type="password"
                     name="password"
-                    placeholder="Введите пароль"
+                    placeholder={t('auth.signup.passwordPlaceholder')}
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -100,11 +102,11 @@ export function Signup() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formConfirmPassword">
-                  <Form.Label>Подтверждение пароля</Form.Label>
+                  <Form.Label>{t('auth.signup.confirmPasswordLabel')}</Form.Label>
                   <Form.Control
                     type="password"
                     name="confirmPassword"
-                    placeholder="Повторите пароль"
+                    placeholder={t('auth.signup.confirmPasswordPlaceholder')}
                     value={formik.values.confirmPassword}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -122,7 +124,7 @@ export function Signup() {
                   className="w-100"
                   disabled={formik.isSubmitting}
                 >
-                  {formik.isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
+                  {formik.isSubmitting ? t('auth.signup.submitting') : t('auth.signup.submit')}
                 </Button>
               </Form>
             </Card.Body>
