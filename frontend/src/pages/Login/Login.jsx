@@ -7,9 +7,11 @@ import { useTranslation } from 'react-i18next';
 
 import { setAuthToken } from '../../api';
 import { login } from '../../api/auth';
+import { useToastNotifications } from '../../components/ToastNotification';
 
 export function Login() {
   const { t } = useTranslation();
+  const { showToast } = useToastNotifications();
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -28,6 +30,7 @@ export function Login() {
         navigate('/');
       } catch {
         setError(t('auth.login.errors.invalidCredentials'));
+        showToast.error(t('auth.login.errors.invalidCredentials'));
       } finally {
         actions.setSubmitting(false);
       }

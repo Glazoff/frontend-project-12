@@ -6,10 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { setCurrentChannelId, removeChannel } from '../../store/channelsSlice';
 import { RemoveChannelModal } from './RemoveChannelModal';
 import { removeChannel as removeChannelApi } from '../../api/channels';
+import { useToastNotifications } from '../ToastNotification';
 
 export function ChannelList() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { showToast } = useToastNotifications();
   const { items: channels, loading, error, currentChannelId } = useSelector((state) => state.channels);
   const [channelToDelete, setChannelToDelete] = useState(null);
 
@@ -27,8 +29,10 @@ export function ChannelList() {
       await removeChannelApi(channelToDelete.id);
       dispatch(removeChannel({ id: channelToDelete.id }));
       handleCloseModal();
+      showToast.success(t('chat.notifications.channelDeleted', { name: channelToDelete.name }));
     } catch (err) {
       console.error('Failed to delete channel:', err);
+      showToast.error(t('chat.notifications.channelDeleteError'));
     }
   };
 

@@ -7,9 +7,11 @@ import { useTranslation } from 'react-i18next';
 
 import { setAuthToken } from '../../api';
 import { signup } from '../../api/auth';
+import { useToastNotifications } from '../../components/ToastNotification';
 
 export function Signup() {
   const { t } = useTranslation();
+  const { showToast } = useToastNotifications();
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -46,6 +48,7 @@ export function Signup() {
         navigate('/');
       } catch (err) {
         setError(err.message || t('auth.signup.errors.generic'));
+        showToast.error(err.message || t('auth.signup.errors.generic'));
       } finally {
         actions.setSubmitting(false);
       }
