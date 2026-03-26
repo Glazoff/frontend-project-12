@@ -14,24 +14,34 @@ export function useChat() {
   const { showToast } = useToastNotifications();
   const [isSending, setIsSending] = useState(false);
 
-  const fetchData = async () => {
+  const loadChannels = async () => {
     dispatch(setChannelsLoading(true));
-    dispatch(setMessagesLoading(true));
     try {
-      const [channelsData, messagesData] = await Promise.all([
-        getChannels(),
-        getMessages(),
-      ]);
+      const channelsData = await getChannels();
       dispatch(setChannels(channelsData));
-      dispatch(setMessages(messagesData));
     } catch (err) {
       dispatch(setChannelsError(err.message));
-      dispatch(setMessagesError(err.message));
-      showToast.error(t('chat.notifications.dataLoadError'));
+      showToast.error(t('chat.notifications.channelsLoadError'));
     } finally {
       dispatch(setChannelsLoading(false));
+    }
+  };
+
+  const loadMessages = async () => {
+    dispatch(setMessagesLoading(true));
+    try {
+      const messagesData = await getMessages();
+      dispatch(setMessages(messagesData));
+    } catch (err) {
+      dispatch(setMessagesError(err.message));
+      showToast.error(t('chat.notifications.messagesLoadError'));
+    } finally {
       dispatch(setMessagesLoading(false));
     }
+  };
+
+  const fetchData = async () => {
+    await Promise.all([loadChannels(), loadMessages()]);
   };
 
   const sendMessage = async (messageData) => {
@@ -52,6 +62,8 @@ export function useChat() {
 
   return {
     fetchData,
+    loadChannels,
+    loadMessages,
     sendMessage,
     isSending,
   };
