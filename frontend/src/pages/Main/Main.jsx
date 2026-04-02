@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { ChatLayout } from '../../components/Chat';
@@ -17,6 +17,8 @@ export function Main() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { showToast } = useToastNotifications();
+  const prevStatusRef = useRef(CONNECTION_STATUS.CONNECTED);
+  const connectionStatus = useSelector((state) => state.messages.connectionStatus);
 
   useEffect(() => {
     fetchData();
@@ -48,12 +50,11 @@ export function Main() {
     });
 
     socket.on('connect', () => {
-      dispatch(setConnectionStatus((prevStatus) => {
-        if (prevStatus !== CONNECTION_STATUS.CONNECTED) {
-          showToast.success(t('chat.notifications.connectionRestored'));
-        }
-        return CONNECTION_STATUS.CONNECTED;
-      }));
+      dispatch(setConnectionStatus(CONNECTION_STATUS.CONNECTED));
+      if (prevStatusRef.current !== CONNECTION_STATUS.CONNECTED) {
+        showToast.success(t('chat.notifications.connectionRestored'));
+      }
+      prevStatusRef.current = CONNECTION_STATUS.CONNECTED;
     });
 
     socket.on('reconnecting', () => {

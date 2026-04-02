@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { CONNECTION_STATUS } from '../../../constants';
 import { useChat } from '../../../hooks/useChat.jsx';
 import { useAuth } from '../../../hooks/useAuth';
+import { profanityFilter } from '../../../utils/profanityFilter';
 
 export function ChatInput() {
   const { t } = useTranslation();
@@ -26,8 +27,9 @@ export function ChatInput() {
     e.preventDefault();
     if (!messageText.trim() || isSending) return;
 
+    const filteredMessage = profanityFilter.filter(messageText.trim());
     const messageData = {
-      body: messageText.trim(),
+      body: filteredMessage,
       channelId: currentChannelId,
       username: username || 'anonymous',
     };
