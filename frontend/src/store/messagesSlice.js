@@ -19,7 +19,6 @@ const messagesSlice = createSlice({
       state.items.push(action.payload);
     },
     addNewMessage: (state, action) => {
-      // Avoid duplicates when receiving from socket
       const exists = state.items.some((msg) => msg.id === action.payload.id);
       if (!exists) {
         state.items.push(action.payload);

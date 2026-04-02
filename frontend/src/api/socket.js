@@ -7,7 +7,6 @@ export const initSocket = (token) => {
     return socket;
   }
 
-  // Используем относительный URL - подключение пойдет через прокси Vite на бэкенд
   socket = io({
     auth: {
       token,

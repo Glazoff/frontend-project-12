@@ -6,7 +6,7 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState: {
     items: [],
-    currentChannelId: GENERAL_CHANNEL_ID, // General channel по умолчанию
+    currentChannelId: GENERAL_CHANNEL_ID,
     loading: false,
     error: null,
   },

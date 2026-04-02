@@ -6,7 +6,6 @@ export function ChatMessages() {
   const { items: messages, loading, error } = useSelector((state) => state.messages);
   const { currentChannelId } = useSelector((state) => state.channels);
 
-  // Фильтрация сообщений по текущему каналу
   const channelMessages = messages.filter((msg) => msg.channelId === currentChannelId);
 
   if (loading) {

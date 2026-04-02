@@ -6,7 +6,6 @@ const api = axios.create({
   baseURL: '/api/v1',
 });
 
-// Interceptor для автоматической установки токена в каждый запрос
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem(AUTH_TOKEN_KEY);
   if (token) {
