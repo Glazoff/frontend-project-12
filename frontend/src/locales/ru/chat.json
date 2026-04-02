@@ -26,7 +26,7 @@
   },
   "addChannelModal": {
     "title": "Новый канал",
-    "nameLabel": "Название канала",
+    "nameLabel": "Имя канала",
     "namePlaceholder": "Введите название",
     "errors": {
       "nameRequired": "Название канала обязательно",
@@ -38,7 +38,7 @@
   },
   "renameChannelModal": {
     "title": "Переименовать канал",
-    "nameLabel": "Название канала",
+    "nameLabel": "Имя канала",
     "namePlaceholder": "Введите название",
     "errors": {
       "nameRequired": "Название канала обязательно",
@@ -57,9 +57,9 @@
     "label": "Delete"
   },
   "notifications": {
-    "channelCreated": "Канал «{{name}}» успешно создан",
-    "channelRenamed": "Канал переименован в «{{name}}»",
-    "channelDeleted": "Канал «{{name}}» успешно удален",
+    "channelCreated": "Канал создан",
+    "channelRenamed": "Канал переименован",
+    "channelDeleted": "Канал удалён",
     "messageSendError": "Не удалось отправить сообщение. Проверьте соединение.",
     "channelsLoadError": "Не удалось загрузить каналы. Проверьте соединение.",
     "messagesLoadError": "Не удалось загрузить сообщения. Проверьте соединение.",
