@@ -5,6 +5,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
+import { profanityFilter } from '../../../utils/profanityFilter';
+
 export function RenameChannelModal({ show, handleClose, handleConfirm, channel, isRenaming }) {
   const { t } = useTranslation();
   const { items: channels } = useSelector((state) => state.channels);
@@ -47,7 +49,8 @@ export function RenameChannelModal({ show, handleClose, handleConfirm, channel, 
     onSubmit: async (values, actions) => {
       try {
         setError('');
-        await handleConfirm(values.name);
+        const filteredName = profanityFilter.filter(values.name);
+        await handleConfirm(filteredName);
         handleClose();
         actions.resetForm();
       } catch {

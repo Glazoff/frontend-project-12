@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { addChannel } from '../../../api/channels';
 import { setCurrentChannelId } from '../../../store/channelsSlice';
 import { useToastNotifications } from '../../ToastNotification';
+import { profanityFilter } from '../../../utils/profanityFilter';
 
 export function AddChannelModal({ show, handleClose }) {
   const { t } = useTranslation();
@@ -50,7 +51,8 @@ export function AddChannelModal({ show, handleClose }) {
     onSubmit: async (values, actions) => {
       try {
         setError('');
-        const newChannel = await addChannel({ name: values.name });
+        const filteredName = profanityFilter.filter(values.name);
+        const newChannel = await addChannel({ name: filteredName });
         dispatch(setCurrentChannelId(newChannel.id));
         handleClose();
         actions.resetForm();
