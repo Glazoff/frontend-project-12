@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useRollbar } from '@rollbar/react';
 
 import { sendMessage as sendMessageApi, getMessages } from '../api/messages';
 import { setChannels, setLoading as setChannelsLoading, setError as setChannelsError } from '../store/channelsSlice';
@@ -12,6 +13,7 @@ export function useChat() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { showToast } = useToastNotifications();
+  const rollbar = useRollbar();
   const [isSending, setIsSending] = useState(false);
 
   const loadChannels = async () => {
@@ -21,6 +23,7 @@ export function useChat() {
       dispatch(setChannels(channelsData));
     } catch (err) {
       dispatch(setChannelsError(err.message));
+      rollbar.error('Failed to load channels', err);
       showToast.error(t('chat.notifications.channelsLoadError'));
     } finally {
       dispatch(setChannelsLoading(false));
@@ -34,6 +37,7 @@ export function useChat() {
       dispatch(setMessages(messagesData));
     } catch (err) {
       dispatch(setMessagesError(err.message));
+      rollbar.error('Failed to load messages', err);
       showToast.error(t('chat.notifications.messagesLoadError'));
     } finally {
       dispatch(setMessagesLoading(false));
@@ -52,6 +56,7 @@ export function useChat() {
       await sendMessageApi(messageData);
       return true;
     } catch (err) {
+      rollbar.error('Failed to send message', err, { channelId: messageData.channelId });
       console.error('Failed to send message:', err);
       showToast.error(t('chat.notifications.messageSendError'));
       return false;
