@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useRollbar } from '@rollbar/react';
 
 import { ChatLayout } from '../../components/Chat';
 import { initSocket } from '../../api/socket';
@@ -17,8 +18,8 @@ export function Main() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { showToast } = useToastNotifications();
+  const rollbar = useRollbar();
   const prevStatusRef = useRef(CONNECTION_STATUS.CONNECTED);
-  const connectionStatus = useSelector((state) => state.messages.connectionStatus);
 
   useEffect(() => {
     fetchData();
@@ -46,6 +47,7 @@ export function Main() {
 
     socket.on('disconnect', () => {
       dispatch(setConnectionStatus(CONNECTION_STATUS.DISCONNECTED));
+      rollbar.warning('Socket disconnected');
       showToast.warning(t('chat.notifications.connectionLost'));
     });
 
@@ -62,7 +64,8 @@ export function Main() {
       showToast.info(t('common.errors.reconnecting'));
     });
 
-    socket.on('connect_error', () => {
+    socket.on('connect_error', (error) => {
+      rollbar.error('Socket connection error', error);
       showToast.error(t('common.errors.networkError'));
     });
 
@@ -76,7 +79,7 @@ export function Main() {
       socket.off('reconnecting');
       socket.off('connect_error');
     };
-  }, [token, dispatch, t, showToast]);
+  }, [token, dispatch, t, showToast, rollbar]);
 
   return <ChatLayout />;
 }
