@@ -8,7 +8,8 @@
     "error": "Ошибка: {{error}}"
   },
   "chatHeader": {
-    "defaultName": "Чат"
+    "defaultName": "Чат",
+    "manageChannel": "Управление каналом"
   },
   "chatInput": {
     "placeholder": "Введите сообщение...",

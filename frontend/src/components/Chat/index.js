@@ -5,3 +5,4 @@ export { ActiveChat } from './ActiveChat';
 export { ChatHeader } from './ActiveChat/ChatHeader';
 export { ChatMessages } from './ActiveChat/ChatMessages';
 export { ChatInput } from './ActiveChat/ChatInput';
+export { ChannelMenu } from './ChannelMenu';
