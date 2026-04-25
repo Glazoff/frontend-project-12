@@ -7,6 +7,7 @@ import { setCurrentChannelId, removeChannel } from '../../store/channelsSlice';
 import { RemoveChannelModal } from './RemoveChannelModal';
 import { removeChannel as removeChannelApi } from '../../api/channels';
 import { useToastNotifications } from '../ToastNotification';
+import { ChannelMenu } from '../Chat/ChannelMenu';
 
 export function ChannelList() {
   const { t } = useTranslation();
@@ -59,9 +60,10 @@ export function ChannelList() {
             onClick={() => handleSelectChannel(channel.id)}
           >
             <>
-              # {channel.name}
-              {channel?.removable && <ChannelMenu channel={channel} />}
-            </>          
+            # {channel.name}
+            {channel?.removable && <ChannelMenu channel={channel} />}
+            </>
+            
           </ListGroup.Item>
         ))}
       </ListGroup>
