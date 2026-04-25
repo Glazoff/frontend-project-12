@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
@@ -12,7 +11,6 @@ import { useToastNotifications } from '../../components/ToastNotification';
 export function Login() {
   const { t } = useTranslation();
   const { showToast } = useToastNotifications();
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -29,7 +27,6 @@ export function Login() {
         setAuthToken(token, userNameToSave);
         navigate('/');
       } catch {
-        setError(t('auth.login.errors.invalidCredentials'));
         showToast.error(t('auth.login.errors.invalidCredentials'));
       } finally {
         actions.setSubmitting(false);
@@ -46,11 +43,6 @@ export function Login() {
               <h4 className="mb-0 text-center">{t('auth.login.title')}</h4>
             </Card.Header>
             <Card.Body>
-              {error && (
-                <Alert variant="danger" role="alert">
-                  {error}
-                </Alert>
-              )}
               <Form onSubmit={formik.handleSubmit}>
                 <Form.Group className="mb-3" controlId="formName">
                   <Form.Label>{t('auth.login.usernameLabel')}</Form.Label>

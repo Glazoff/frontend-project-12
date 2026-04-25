@@ -58,7 +58,10 @@ export function ChannelList() {
             active={channel.id === currentChannelId}
             onClick={() => handleSelectChannel(channel.id)}
           >
-            # {channel.name}
+            <>
+              # {channel.name}
+              {channel?.removable && <ChannelMenu channel={channel} />}
+            </>          
           </ListGroup.Item>
         ))}
       </ListGroup>

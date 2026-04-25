@@ -47,6 +47,7 @@ export function Signup() {
         setAuthToken(token, userNameToSave);
         navigate('/');
       } catch (err) {
+        navigate('/');
         setError(err.message || t('auth.signup.errors.generic'));
         showToast.error(err.message || t('auth.signup.errors.generic'));
       } finally {

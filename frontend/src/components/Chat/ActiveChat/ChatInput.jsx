@@ -49,6 +49,7 @@ export function ChatInput() {
           {t('chat.chatInput.label')}
         </label>
         <Form.Control
+          aria-label="Новое сообщение"
           ref={inputRef}
           id="messageInput"
           type="text"

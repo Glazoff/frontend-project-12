@@ -59,7 +59,7 @@ export function ChannelMenu({ channel }) {
     <>
       <Dropdown align="start">
         <Dropdown.Toggle variant="outline-secondary" size="sm" id="channel-menu-dropdown">
-          {t('chat.chatHeader.manageChannel')}
+          <span>{t('chat.chatHeader.manageChannel')}</span>
         </Dropdown.Toggle>
 
         <Dropdown.Menu>

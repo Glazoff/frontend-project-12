@@ -28,8 +28,8 @@ export function AddChannelModal({ show, handleClose }) {
     name: yup
       .string()
       .required(t('chat.addChannelModal.errors.nameRequired'))
-      .min(3, t('chat.addChannelModal.errors.nameMinLength'))
-      .max(20, t('chat.addChannelModal.errors.nameMaxLength'))
+      .min(3, t('chat.addChannelModal.errors.nameMaxMinLength'))
+      .max(20, t('chat.addChannelModal.errors.nameMaxMinLength'))
       .test(
         'is-unique',
         t('chat.addChannelModal.errors.nameExists'),
