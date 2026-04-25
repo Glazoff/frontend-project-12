@@ -75,7 +75,7 @@ export default defineConfig({
   webServer: {
     command: 'make start',
     url: 'http://0.0.0.0:5001',
-    // reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env.CI,
   },
 });
 
