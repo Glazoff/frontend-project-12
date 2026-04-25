@@ -1,8 +1,8 @@
-import { Modal, Button } from 'react-bootstrap';
-import { Trans, useTranslation } from 'react-i18next';
+import { Modal, Button } from 'react-bootstrap'
+import { Trans, useTranslation } from 'react-i18next'
 
 export function RemoveChannelModal({ show, handleClose, handleConfirm, channelName, isDeleting }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -30,5 +30,5 @@ export function RemoveChannelModal({ show, handleClose, handleConfirm, channelNa
         </Button>
       </Modal.Footer>
     </Modal>
-  );
+  )
 }

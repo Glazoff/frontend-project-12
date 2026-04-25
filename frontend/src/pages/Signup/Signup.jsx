@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { useTranslation } from 'react-i18next';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
+import { useTranslation } from 'react-i18next'
 
-import { setAuthToken } from '../../api';
-import { signup } from '../../api/auth';
-import { useToastNotifications } from '../../components/ToastNotification';
+import { setAuthToken } from '../../api'
+import { signup } from '../../api/auth'
+import { useToastNotifications } from '../../components/ToastNotification'
 
 export function Signup() {
-  const { t } = useTranslation();
-  const { showToast } = useToastNotifications();
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const { t } = useTranslation()
+  const { showToast } = useToastNotifications()
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const validationSchema = yup.object({
     name: yup
@@ -29,7 +29,7 @@ export function Signup() {
       .string()
       .required(t('auth.signup.errors.confirmPasswordRequired'))
       .oneOf([yup.ref('password'), null], t('common.validation.passwordsMatch')),
-  });
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -40,21 +40,23 @@ export function Signup() {
     validationSchema,
     onSubmit: async (values, actions) => {
       try {
-        const { token, username } = await signup(values);
-        const userNameToSave = username || values.name;
-        localStorage.setItem('token', token);
-        localStorage.setItem('username', userNameToSave);
-        setAuthToken(token, userNameToSave);
-        navigate('/');
-      } catch (err) {
-        navigate('/');
-        setError(err.message || t('auth.signup.errors.generic'));
-        showToast.error(err.message || t('auth.signup.errors.generic'));
-      } finally {
-        actions.setSubmitting(false);
+        const { token, username } = await signup(values)
+        const userNameToSave = username || values.name
+        localStorage.setItem('token', token)
+        localStorage.setItem('username', userNameToSave)
+        setAuthToken(token, userNameToSave)
+        navigate('/')
+      }
+      catch (err) {
+        navigate('/')
+        setError(err.message || t('auth.signup.errors.generic'))
+        showToast.error(err.message || t('auth.signup.errors.generic'))
+      }
+      finally {
+        actions.setSubmitting(false)
       }
     },
-  });
+  })
 
   return (
     <Container className="h-100">
@@ -136,5 +138,5 @@ export function Signup() {
         </Col>
       </Row>
     </Container>
-  );
+  )
 }

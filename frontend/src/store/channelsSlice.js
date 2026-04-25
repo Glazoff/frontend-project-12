@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
-import { GENERAL_CHANNEL_ID } from '../constants';
+import { GENERAL_CHANNEL_ID } from '../constants'
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -12,35 +12,35 @@ const channelsSlice = createSlice({
   },
   reducers: {
     setChannels: (state, action) => {
-      state.items = action.payload;
+      state.items = action.payload
     },
     addChannel: (state, action) => {
-      state.items.push(action.payload);
+      state.items.push(action.payload)
     },
     removeChannel: (state, action) => {
-      const removedChannelId = action.payload.id;
-      state.items = state.items.filter((channel) => channel.id !== removedChannelId);
+      const removedChannelId = action.payload.id
+      state.items = state.items.filter(channel => channel.id !== removedChannelId)
       if (state.currentChannelId === removedChannelId) {
-        state.currentChannelId = GENERAL_CHANNEL_ID;
+        state.currentChannelId = GENERAL_CHANNEL_ID
       }
     },
     renameChannel: (state, action) => {
-      const channel = state.items.find((ch) => ch.id === action.payload.id);
+      const channel = state.items.find(ch => ch.id === action.payload.id)
       if (channel) {
-        channel.name = action.payload.name;
+        channel.name = action.payload.name
       }
     },
     setCurrentChannelId: (state, action) => {
-      state.currentChannelId = action.payload;
+      state.currentChannelId = action.payload
     },
     setLoading: (state, action) => {
-      state.loading = action.payload;
+      state.loading = action.payload
     },
     setError: (state, action) => {
-      state.error = action.payload;
+      state.error = action.payload
     },
   },
-});
+})
 
 export const {
   setChannels,
@@ -50,5 +50,5 @@ export const {
   setCurrentChannelId,
   setLoading,
   setError,
-} = channelsSlice.actions;
-export default channelsSlice.reducer;
+} = channelsSlice.actions
+export default channelsSlice.reducer

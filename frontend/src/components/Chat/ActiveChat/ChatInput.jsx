@@ -1,46 +1,46 @@
-import { useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Form, Button, Spinner } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import { useState, useRef, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { Form, Button, Spinner } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 
-import { CONNECTION_STATUS } from '../../../constants';
-import { useChat } from '../../../hooks/useChat.jsx';
-import { useAuth } from '../../../hooks/useAuth';
-import { profanityFilter } from '../../../utils/profanityFilter';
+import { CONNECTION_STATUS } from '../../../constants'
+import { useChat } from '../../../hooks/useChat.jsx'
+import { useAuth } from '../../../hooks/useAuth'
+import { profanityFilter } from '../../../utils/profanityFilter'
 
 export function ChatInput() {
-  const { t } = useTranslation();
-  const [messageText, setMessageText] = useState('');
-  const { sendMessage, isSending } = useChat();
-  const { currentChannelId } = useSelector((state) => state.channels);
-  const { username } = useAuth();
-  const { connectionStatus } = useSelector((state) => state.messages);
-  const inputRef = useRef(null);
+  const { t } = useTranslation()
+  const [messageText, setMessageText] = useState('')
+  const { sendMessage, isSending } = useChat()
+  const { currentChannelId } = useSelector(state => state.channels)
+  const { username } = useAuth()
+  const { connectionStatus } = useSelector(state => state.messages)
+  const inputRef = useRef(null)
 
   useEffect(() => {
     if (!isSending) {
-      inputRef.current?.focus();
+      inputRef.current?.focus()
     }
-  }, [isSending]);
+  }, [isSending])
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!messageText.trim() || isSending) return;
+    e.preventDefault()
+    if (!messageText.trim() || isSending) return
 
-    const filteredMessage = profanityFilter.filter(messageText.trim());
+    const filteredMessage = profanityFilter.filter(messageText.trim())
     const messageData = {
       body: filteredMessage,
       channelId: currentChannelId,
       username: username || 'anonymous',
-    };
-
-    const success = await sendMessage(messageData);
-    if (success) {
-      setMessageText('');
     }
-  };
 
-  const isDisabled = isSending || connectionStatus === CONNECTION_STATUS.DISCONNECTED;
+    const success = await sendMessage(messageData)
+    if (success) {
+      setMessageText('')
+    }
+  }
+
+  const isDisabled = isSending || connectionStatus === CONNECTION_STATUS.DISCONNECTED
 
   return (
     <div className="bg-light p-3">
@@ -55,7 +55,7 @@ export function ChatInput() {
           type="text"
           placeholder={t('chat.chatInput.placeholder')}
           value={messageText}
-          onChange={(e) => setMessageText(e.target.value)}
+          onChange={e => setMessageText(e.target.value)}
           disabled={isDisabled}
         />
         <Button
@@ -67,5 +67,5 @@ export function ChatInput() {
         </Button>
       </Form>
     </div>
-  );
+  )
 }

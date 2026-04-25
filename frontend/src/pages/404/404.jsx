@@ -1,8 +1,8 @@
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import { Container, Row, Col, Card } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 
 export function PageNotFound() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <Container className="h-100">
@@ -23,5 +23,5 @@ export function PageNotFound() {
         </Col>
       </Row>
     </Container>
-  );
+  )
 }

@@ -1,1 +1,1 @@
-export { DeleteChannelButton } from './DeleteChannelButton';
+export { DeleteChannelButton } from './DeleteChannelButton'

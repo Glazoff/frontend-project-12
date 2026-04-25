@@ -1,12 +1,12 @@
-import filter from 'leo-profanity';
+import filter from 'leo-profanity'
 
-filter.clearList();
+filter.clearList()
 
-filter.add(filter.getDictionary('en'));
-filter.add(filter.getDictionary('ru'));
+filter.add(filter.getDictionary('en'))
+filter.add(filter.getDictionary('ru'))
 
 export const profanityFilter = {
-  filter: (text) => filter.clean(text),
-};
+  filter: text => filter.clean(text),
+}
 
-export default profanityFilter;
+export default profanityFilter

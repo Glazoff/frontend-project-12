@@ -1,28 +1,28 @@
-import { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Button, Form, Alert } from 'react-bootstrap';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { useTranslation } from 'react-i18next';
+import { useState, useRef, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Modal, Button, Form, Alert } from 'react-bootstrap'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
+import { useTranslation } from 'react-i18next'
 
-import { addChannel } from '../../../api/channels';
-import { setCurrentChannelId } from '../../../store/channelsSlice';
-import { useToastNotifications } from '../../ToastNotification';
-import { profanityFilter } from '../../../utils/profanityFilter';
+import { addChannel } from '../../../api/channels'
+import { setCurrentChannelId } from '../../../store/channelsSlice'
+import { useToastNotifications } from '../../ToastNotification'
+import { profanityFilter } from '../../../utils/profanityFilter'
 
 export function AddChannelModal({ show, handleClose }) {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const { showToast } = useToastNotifications();
-  const { items: channels } = useSelector((state) => state.channels);
-  const [error, setError] = useState('');
-  const inputRef = useRef(null);
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const { showToast } = useToastNotifications()
+  const { items: channels } = useSelector(state => state.channels)
+  const [error, setError] = useState('')
+  const inputRef = useRef(null)
 
   useEffect(() => {
     if (show) {
-      inputRef.current?.focus();
+      inputRef.current?.focus()
     }
-  }, [show]);
+  }, [show])
 
   const validationSchema = yup.object({
     name: yup
@@ -34,13 +34,13 @@ export function AddChannelModal({ show, handleClose }) {
         'is-unique',
         t('chat.addChannelModal.errors.nameExists'),
         (value) => {
-          if (!value) return true;
+          if (!value) return true
           return !channels.some(
-            (ch) => ch.name.toLowerCase() === value.toLowerCase()
-          );
-        }
+            ch => ch.name.toLowerCase() === value.toLowerCase(),
+          )
+        },
       ),
-  });
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -50,21 +50,23 @@ export function AddChannelModal({ show, handleClose }) {
     validateOnChange: false,
     onSubmit: async (values, actions) => {
       try {
-        setError('');
-        const filteredName = profanityFilter.filter(values.name);
-        const newChannel = await addChannel({ name: filteredName });
-        dispatch(setCurrentChannelId(newChannel.id));
-        handleClose();
-        actions.resetForm();
-        showToast.success(t('chat.notifications.channelCreated', { name: newChannel.name }));
-      } catch {
-        setError(t('chat.addChannelModal.errors.createError'));
-        showToast.error(t('chat.notifications.channelCreateError'));
-      } finally {
-        actions.setSubmitting(false);
+        setError('')
+        const filteredName = profanityFilter.filter(values.name)
+        const newChannel = await addChannel({ name: filteredName })
+        dispatch(setCurrentChannelId(newChannel.id))
+        handleClose()
+        actions.resetForm()
+        showToast.success(t('chat.notifications.channelCreated', { name: newChannel.name }))
+      }
+      catch {
+        setError(t('chat.addChannelModal.errors.createError'))
+        showToast.error(t('chat.notifications.channelCreateError'))
+      }
+      finally {
+        actions.setSubmitting(false)
       }
     },
-  });
+  })
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -106,5 +108,5 @@ export function AddChannelModal({ show, handleClose }) {
         </Button>
       </Modal.Footer>
     </Modal>
-  );
+  )
 }

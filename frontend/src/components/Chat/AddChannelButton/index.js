@@ -1,1 +1,1 @@
-export { AddChannelButton } from './AddChannelButton';
+export { AddChannelButton } from './AddChannelButton'

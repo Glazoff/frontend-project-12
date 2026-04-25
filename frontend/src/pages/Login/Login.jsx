@@ -1,17 +1,17 @@
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
-import { useFormik } from 'formik';
-import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap'
+import { useFormik } from 'formik'
+import { useTranslation } from 'react-i18next'
 
-import { setAuthToken } from '../../api';
-import { login } from '../../api/auth';
-import { useToastNotifications } from '../../components/ToastNotification';
+import { setAuthToken } from '../../api'
+import { login } from '../../api/auth'
+import { useToastNotifications } from '../../components/ToastNotification'
 
 export function Login() {
-  const { t } = useTranslation();
-  const { showToast } = useToastNotifications();
-  const navigate = useNavigate();
+  const { t } = useTranslation()
+  const { showToast } = useToastNotifications()
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -20,19 +20,21 @@ export function Login() {
     },
     onSubmit: async (values, actions) => {
       try {
-        const { token, username } = await login(values);
-        const userNameToSave = username || values.name;
-        localStorage.setItem('token', token);
-        localStorage.setItem('username', userNameToSave);
-        setAuthToken(token, userNameToSave);
-        navigate('/');
-      } catch {
-        showToast.error(t('auth.login.errors.invalidCredentials'));
-      } finally {
-        actions.setSubmitting(false);
+        const { token, username } = await login(values)
+        const userNameToSave = username || values.name
+        localStorage.setItem('token', token)
+        localStorage.setItem('username', userNameToSave)
+        setAuthToken(token, userNameToSave)
+        navigate('/')
+      }
+      catch {
+        showToast.error(t('auth.login.errors.invalidCredentials'))
+      }
+      finally {
+        actions.setSubmitting(false)
       }
     },
-  });
+  })
 
   return (
     <Container className="h-100">
@@ -80,7 +82,10 @@ export function Login() {
                 </Button>
               </Form>
               <div className="text-center mt-3">
-                <span>{t('auth.login.noAccount')} </span>
+                <span>
+                  {t('auth.login.noAccount')}
+                  {' '}
+                </span>
                 <Link to="/signup">{t('auth.login.signupLink')}</Link>
               </div>
             </Card.Body>
@@ -88,5 +93,5 @@ export function Login() {
         </Col>
       </Row>
     </Container>
-  );
+  )
 }

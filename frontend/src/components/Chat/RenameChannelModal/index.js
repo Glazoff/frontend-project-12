@@ -1,1 +1,1 @@
-export { RenameChannelModal } from './RenameChannelModal';
+export { RenameChannelModal } from './RenameChannelModal'

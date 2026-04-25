@@ -1,8 +1,8 @@
-import { Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap'
 
-import { ChatHeader } from './ChatHeader';
-import { ChatMessages } from './ChatMessages';
-import { ChatInput } from './ChatInput';
+import { ChatHeader } from './ChatHeader'
+import { ChatMessages } from './ChatMessages'
+import { ChatInput } from './ChatInput'
 
 export function ActiveChat() {
   return (
@@ -15,5 +15,5 @@ export function ActiveChat() {
         <ChatInput />
       </Card.Body>
     </Card>
-  );
+  )
 }

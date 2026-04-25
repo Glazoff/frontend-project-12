@@ -1,1 +1,1 @@
-export { ChannelMenu } from './ChannelMenu';
+export { ChannelMenu } from './ChannelMenu'

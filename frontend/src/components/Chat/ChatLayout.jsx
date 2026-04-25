@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import { useState } from 'react'
+import { Container, Row, Col, Card } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
-import { ChannelList } from './ChannelList';
-import { ActiveChat } from './ActiveChat';
-import { ConnectionStatusAlert } from './ConnectionStatusAlert';
-import { AddChannelButton } from './AddChannelButton';
-import { AddChannelModal } from './AddChannelModal';
+import { ChannelList } from './ChannelList'
+import { ActiveChat } from './ActiveChat'
+import { ConnectionStatusAlert } from './ConnectionStatusAlert'
+import { AddChannelButton } from './AddChannelButton'
+import { AddChannelModal } from './AddChannelModal'
 
 export function ChatLayout() {
-  const { connectionStatus } = useSelector((state) => state.messages);
-  const [showModal, setShowModal] = useState(false);
-  const { t } = useTranslation();
+  const { connectionStatus } = useSelector(state => state.messages)
+  const [showModal, setShowModal] = useState(false)
+  const { t } = useTranslation()
 
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
+  const handleOpenModal = () => setShowModal(true)
+  const handleCloseModal = () => setShowModal(false)
 
   return (
     <>
@@ -40,5 +40,5 @@ export function ChatLayout() {
       </Container>
       <AddChannelModal show={showModal} handleClose={handleCloseModal} />
     </>
-  );
+  )
 }

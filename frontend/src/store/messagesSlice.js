@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
-import { CONNECTION_STATUS } from '../constants';
-import { removeChannel } from './channelsSlice';
+import { CONNECTION_STATUS } from '../constants'
+import { removeChannel } from './channelsSlice'
 
 const messagesSlice = createSlice({
   name: 'messages',
@@ -13,36 +13,36 @@ const messagesSlice = createSlice({
   },
   reducers: {
     setMessages: (state, action) => {
-      state.items = action.payload;
+      state.items = action.payload
     },
     addMessage: (state, action) => {
-      state.items.push(action.payload);
+      state.items.push(action.payload)
     },
     addNewMessage: (state, action) => {
-      const exists = state.items.some((msg) => msg.id === action.payload.id);
+      const exists = state.items.some(msg => msg.id === action.payload.id)
       if (!exists) {
-        state.items.push(action.payload);
+        state.items.push(action.payload)
       }
     },
     removeMessage: (state, action) => {
-      state.items = state.items.filter((msg) => msg.id !== action.payload.id);
+      state.items = state.items.filter(msg => msg.id !== action.payload.id)
     },
     setLoading: (state, action) => {
-      state.loading = action.payload;
+      state.loading = action.payload
     },
     setError: (state, action) => {
-      state.error = action.payload;
+      state.error = action.payload
     },
     setConnectionStatus: (state, action) => {
-      state.connectionStatus = action.payload;
+      state.connectionStatus = action.payload
     },
   },
   extraReducers: (builder) => {
     builder.addCase(removeChannel, (state, action) => {
-      state.items = state.items.filter((msg) => msg.channelId !== action.payload.id);
-    });
+      state.items = state.items.filter(msg => msg.channelId !== action.payload.id)
+    })
   },
-});
+})
 
 export const {
   setMessages,
@@ -52,5 +52,5 @@ export const {
   setLoading,
   setError,
   setConnectionStatus,
-} = messagesSlice.actions;
-export default messagesSlice.reducer;
+} = messagesSlice.actions
+export default messagesSlice.reducer

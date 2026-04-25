@@ -1,1 +1,1 @@
-export { AddChannelModal } from './AddChannelModal';
+export { AddChannelModal } from './AddChannelModal'

@@ -1,22 +1,22 @@
-import { Navbar, Container, Nav, Button } from 'react-bootstrap';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { useRollbarPerson } from '@rollbar/react';
+import { Navbar, Container, Nav, Button } from 'react-bootstrap'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useRollbarPerson } from '@rollbar/react'
 
-import { setAuthToken } from '../../api';
-import { AUTH_USERNAME_KEY } from '../../constants';
+import { setAuthToken } from '../../api'
+import { AUTH_USERNAME_KEY } from '../../constants'
 
 export function Layout() {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const username = localStorage.getItem(AUTH_USERNAME_KEY);
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const username = localStorage.getItem(AUTH_USERNAME_KEY)
 
-  useRollbarPerson(username ? { username } : null);
+  useRollbarPerson(username ? { username } : null)
 
   const handleLogout = () => {
-    setAuthToken(null, null);
-    navigate('/login');
-  };
+    setAuthToken(null, null)
+    navigate('/login')
+  }
 
   return (
     <>
@@ -34,5 +34,5 @@ export function Layout() {
       </Navbar>
       <Outlet />
     </>
-  );
+  )
 }

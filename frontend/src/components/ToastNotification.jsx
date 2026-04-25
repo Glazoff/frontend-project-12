@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
 export const useToastNotifications = () => {
   const showToast = {
@@ -11,7 +11,7 @@ export const useToastNotifications = () => {
         pauseOnHover: true,
         draggable: true,
         ...options,
-      });
+      })
     },
     error: (message, options = {}) => {
       toast.error(message, {
@@ -22,7 +22,7 @@ export const useToastNotifications = () => {
         pauseOnHover: true,
         draggable: true,
         ...options,
-      });
+      })
     },
     info: (message, options = {}) => {
       toast.info(message, {
@@ -33,7 +33,7 @@ export const useToastNotifications = () => {
         pauseOnHover: true,
         draggable: true,
         ...options,
-      });
+      })
     },
     warning: (message, options = {}) => {
       toast.warning(message, {
@@ -44,11 +44,11 @@ export const useToastNotifications = () => {
         pauseOnHover: true,
         draggable: true,
         ...options,
-      });
+      })
     },
-  };
+  }
 
-  return { showToast };
-};
+  return { showToast }
+}
 
-export default useToastNotifications;
+export default useToastNotifications

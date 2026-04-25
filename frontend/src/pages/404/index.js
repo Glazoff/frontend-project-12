@@ -1,1 +1,1 @@
-export * from './404.jsx';
+export * from './404.jsx'

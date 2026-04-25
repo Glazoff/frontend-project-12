@@ -1,10 +1,10 @@
-import { io } from 'socket.io-client';
+import { io } from 'socket.io-client'
 
-let socket = null;
+let socket = null
 
 export const initSocket = (token) => {
   if (socket) {
-    return socket;
+    return socket
   }
 
   socket = io({
@@ -16,30 +16,30 @@ export const initSocket = (token) => {
     reconnectionDelay: 1000,
     reconnectionDelayMax: 5000,
     reconnectionAttempts: 5,
-  });
+  })
 
   socket.on('connect', () => {
-    console.log('Socket connected:', socket.id);
-  });
+    console.log('Socket connected:', socket.id)
+  })
 
   socket.on('disconnect', (reason) => {
-    console.log('Socket disconnected:', reason);
-  });
+    console.log('Socket disconnected:', reason)
+  })
 
   socket.on('connect_error', (error) => {
-    console.error('Socket connection error:', error);
-  });
+    console.error('Socket connection error:', error)
+  })
 
-  return socket;
-};
+  return socket
+}
 
-export const getSocket = () => socket;
+export const getSocket = () => socket
 
 export const disconnectSocket = () => {
   if (socket) {
-    socket.disconnect();
-    socket = null;
+    socket.disconnect()
+    socket = null
   }
-};
+}
 
-export default socket;
+export default socket

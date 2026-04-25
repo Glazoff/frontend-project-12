@@ -1,1 +1,1 @@
-export { RemoveChannelModal } from './RemoveChannelModal';
+export { RemoveChannelModal } from './RemoveChannelModal'
