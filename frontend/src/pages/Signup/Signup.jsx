@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import {signupSchema} from '../../utils/yupSchemes'
+import { signupSchema } from '../../utils/yupSchemes'
 
 import { setAuthToken } from '../../api'
 import { signup } from '../../api/auth'

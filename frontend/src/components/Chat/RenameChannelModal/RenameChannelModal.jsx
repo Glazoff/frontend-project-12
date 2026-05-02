@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { Modal, Button, Form, Alert } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import {renameChannelSchema} from '../../utils/yupSchemes'
+import { renameChannelSchema } from '../../utils/yupSchemes'
 
 import { profanityFilter } from '../../../utils/profanityFilter'
 

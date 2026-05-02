@@ -28,7 +28,7 @@ export function Login() {
     finally {
       actions.setSubmitting(false)
     }
-    }
+  }
 
   const formik = useFormik({
     initialValues: {
