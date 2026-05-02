@@ -13,7 +13,7 @@ export function DeleteChannelButton({ onClick }) {
           onClick(e)
         }
       }}
-      className='delete-button'
+      className="delete-button"
       onMouseEnter={(e) => {
         e.currentTarget.style.opacity = 1
       }}
