@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Modal, Button, Form, Alert } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { addChannelSchema } from '../../utils/yupSchemes'
+import { addChannelSchema } from '../../../utils/yupSchemes'
 
 import { addChannel } from '../../../api/channels'
 import { setCurrentChannelId } from '../../../store/channelsSlice'
