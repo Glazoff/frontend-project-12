@@ -8,3 +8,11 @@ body {
   width: 100%;
   min-height: 100vh;
 }
+
+.delete-button {
+  opacity: 0;
+  transition: 'opacity 0.2s';
+  cursor: 'pointer';
+  color: '#dc3545';
+  font-size: '0.875rem';
+}
