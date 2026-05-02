@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Modal, Button, Form, Alert } from 'react-bootstrap'
 import { useFormik } from 'formik'
-import * as yup from 'yup'
 import { useTranslation } from 'react-i18next'
+import {renameChannelSchema} from '../../utils/yupSchemes'
 
 import { profanityFilter } from '../../../utils/profanityFilter'
 
@@ -19,48 +19,30 @@ export function RenameChannelModal({ show, handleClose, handleConfirm, channel, 
     }
   }, [show])
 
-  const validationSchema = yup.object({
-    name: yup
-      .string()
-      .required(t('chat.renameChannelModal.errors.nameRequired'))
-      .min(3, t('chat.renameChannelModal.errors.nameMinLength'))
-      .max(20, t('chat.renameChannelModal.errors.nameMaxLength'))
-      .test(
-        'is-unique',
-        t('chat.renameChannelModal.errors.nameExists'),
-        (value) => {
-          if (!value || !channel || !channels) return true
-          return !channels.some(
-            ch =>
-              ch.id !== channel.id
-              && ch.name.toLowerCase() === value.toLowerCase(),
-          )
-        },
-      ),
-  })
+  const submitForm = async (values, actions) => {
+    try {
+      setError('')
+      const filteredName = profanityFilter.filter(values.name)
+      await handleConfirm(filteredName)
+      handleClose()
+      actions.resetForm()
+    }
+    catch {
+      setError(t('chat.renameChannelModal.errors.renameError'))
+    }
+    finally {
+      actions.setSubmitting(false)
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
       name: channel?.name || '',
     },
-    validationSchema,
+    validationSchema: renameChannelSchema(t, channel, channels),
     validateOnChange: false,
     enableReinitialize: true,
-    onSubmit: async (values, actions) => {
-      try {
-        setError('')
-        const filteredName = profanityFilter.filter(values.name)
-        await handleConfirm(filteredName)
-        handleClose()
-        actions.resetForm()
-      }
-      catch {
-        setError(t('chat.renameChannelModal.errors.renameError'))
-      }
-      finally {
-        actions.setSubmitting(false)
-      }
-    },
+    onSubmit: submitForm,
   })
 
   return (

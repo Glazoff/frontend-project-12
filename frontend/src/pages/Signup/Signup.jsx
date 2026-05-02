@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
 import { useFormik } from 'formik'
-import * as yup from 'yup'
 import { useTranslation } from 'react-i18next'
+import {signupSchema} from '../../utils/yupSchemes'
 
 import { setAuthToken } from '../../api'
 import { signup } from '../../api/auth'
@@ -15,21 +15,24 @@ export function Signup() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
-  const validationSchema = yup.object({
-    name: yup
-      .string()
-      .required(t('auth.signup.errors.nameRequired'))
-      .min(3, t('auth.signup.errors.nameMinLength'))
-      .max(20, t('auth.signup.errors.nameMaxLength')),
-    password: yup
-      .string()
-      .required(t('auth.signup.errors.passwordRequired'))
-      .min(6, t('auth.signup.errors.passwordMinLength')),
-    confirmPassword: yup
-      .string()
-      .required(t('auth.signup.errors.confirmPasswordRequired'))
-      .oneOf([yup.ref('password'), null], t('common.validation.passwordsMatch')),
-  })
+  const submitForm = async (values, actions) => {
+    try {
+      const { token, username } = await signup(values)
+      const userNameToSave = username || values.name
+      localStorage.setItem('token', token)
+      localStorage.setItem('username', userNameToSave)
+      setAuthToken(token, userNameToSave)
+      navigate('/')
+    }
+    catch (err) {
+      navigate('/')
+      setError(err.message || t('auth.signup.errors.generic'))
+      showToast.error(err.message || t('auth.signup.errors.generic'))
+    }
+    finally {
+      actions.setSubmitting(false)
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -37,25 +40,8 @@ export function Signup() {
       password: '',
       confirmPassword: '',
     },
-    validationSchema,
-    onSubmit: async (values, actions) => {
-      try {
-        const { token, username } = await signup(values)
-        const userNameToSave = username || values.name
-        localStorage.setItem('token', token)
-        localStorage.setItem('username', userNameToSave)
-        setAuthToken(token, userNameToSave)
-        navigate('/')
-      }
-      catch (err) {
-        navigate('/')
-        setError(err.message || t('auth.signup.errors.generic'))
-        showToast.error(err.message || t('auth.signup.errors.generic'))
-      }
-      finally {
-        actions.setSubmitting(false)
-      }
-    },
+    validationSchema: signupSchema(t),
+    onSubmit: submitForm,
   })
 
   return (

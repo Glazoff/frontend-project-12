@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal, Button, Form, Alert } from 'react-bootstrap'
 import { useFormik } from 'formik'
-import * as yup from 'yup'
 import { useTranslation } from 'react-i18next'
+import {addChannelSchema} from '../../utils/yupSchemes'
 
 import { addChannel } from '../../../api/channels'
 import { setCurrentChannelId } from '../../../store/channelsSlice'
@@ -24,48 +24,32 @@ export function AddChannelModal({ show, handleClose }) {
     }
   }, [show])
 
-  const validationSchema = yup.object({
-    name: yup
-      .string()
-      .required(t('chat.addChannelModal.errors.nameRequired'))
-      .min(3, t('chat.addChannelModal.errors.nameMaxMinLength'))
-      .max(20, t('chat.addChannelModal.errors.nameMaxMinLength'))
-      .test(
-        'is-unique',
-        t('chat.addChannelModal.errors.nameExists'),
-        (value) => {
-          if (!value) return true
-          return !channels.some(
-            ch => ch.name.toLowerCase() === value.toLowerCase(),
-          )
-        },
-      ),
-  })
+  const submitForm = async (values, actions) => {
+    try {
+      setError('')
+      const filteredName = profanityFilter.filter(values.name)
+      const newChannel = await addChannel({ name: filteredName })
+      dispatch(setCurrentChannelId(newChannel.id))
+      handleClose()
+      actions.resetForm()
+      showToast.success(t('chat.notifications.channelCreated', { name: newChannel.name }))
+    }
+    catch {
+      setError(t('chat.addChannelModal.errors.createError'))
+      showToast.error(t('chat.notifications.channelCreateError'))
+    }
+    finally {
+      actions.setSubmitting(false)
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
       name: '',
     },
-    validationSchema,
+    validationSchema: addChannelSchema(t, channels),
     validateOnChange: false,
-    onSubmit: async (values, actions) => {
-      try {
-        setError('')
-        const filteredName = profanityFilter.filter(values.name)
-        const newChannel = await addChannel({ name: filteredName })
-        dispatch(setCurrentChannelId(newChannel.id))
-        handleClose()
-        actions.resetForm()
-        showToast.success(t('chat.notifications.channelCreated', { name: newChannel.name }))
-      }
-      catch {
-        setError(t('chat.addChannelModal.errors.createError'))
-        showToast.error(t('chat.notifications.channelCreateError'))
-      }
-      finally {
-        actions.setSubmitting(false)
-      }
-    },
+    onSubmit: submitForm
   })
 
   return (

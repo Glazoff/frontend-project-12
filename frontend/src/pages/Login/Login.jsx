@@ -13,27 +13,29 @@ export function Login() {
   const { showToast } = useToastNotifications()
   const navigate = useNavigate()
 
+  const submitForm = async (values, actions) => {
+    try {
+      const { token, username } = await login(values)
+      const userNameToSave = username || values.name
+      localStorage.setItem('token', token)
+      localStorage.setItem('username', userNameToSave)
+      setAuthToken(token, userNameToSave)
+      navigate('/')
+    }
+    catch {
+      showToast.error(t('auth.login.errors.invalidCredentials'))
+    }
+    finally {
+      actions.setSubmitting(false)
+    }
+    }
+
   const formik = useFormik({
     initialValues: {
       name: '',
       password: '',
     },
-    onSubmit: async (values, actions) => {
-      try {
-        const { token, username } = await login(values)
-        const userNameToSave = username || values.name
-        localStorage.setItem('token', token)
-        localStorage.setItem('username', userNameToSave)
-        setAuthToken(token, userNameToSave)
-        navigate('/')
-      }
-      catch {
-        showToast.error(t('auth.login.errors.invalidCredentials'))
-      }
-      finally {
-        actions.setSubmitting(false)
-      }
-    },
+    onSubmit: submitForm,
   })
 
   return (
