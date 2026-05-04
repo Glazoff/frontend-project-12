@@ -26,9 +26,9 @@ export function Layout() {
             <Nav.Link as={Link} to="/">{t('common.nav.appName')}</Nav.Link>
           </Nav>
           <Nav>
-            <Button variant="outline-secondary" onClick={handleLogout}>
+            {username && (<Button variant="outline-secondary" onClick={handleLogout}>
               {t('common.nav.logout')}
-            </Button>
+            </Button>)}
           </Nav>
         </Container>
       </Navbar>
