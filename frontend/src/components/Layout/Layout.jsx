@@ -5,6 +5,7 @@ import { useRollbarPerson } from '@rollbar/react'
 
 import { setAuthToken } from '../../api'
 import { AUTH_USERNAME_KEY } from '../../constants'
+import './Layout.css'
 
 export function Layout() {
   const { t } = useTranslation()
@@ -19,7 +20,7 @@ export function Layout() {
   }
 
   return (
-    <>
+    <div className="layout-container">
       <Navbar bg="light" variant="light">
         <Container>
           <Nav>
@@ -32,7 +33,9 @@ export function Layout() {
           </Nav>
         </Container>
       </Navbar>
-      <Outlet />
-    </>
+      <div className="layout-outlet">
+        <Outlet />
+      </div>
+    </div>
   )
 }
