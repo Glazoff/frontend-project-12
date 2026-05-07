@@ -11,9 +11,9 @@ export function ChatMessages() {
 
   const channelMessages = messages.filter(msg => msg.channelId === currentChannelId)
 
-
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    console.log(messages)
   }, [messages])
 
   if (loading) {
@@ -36,20 +36,18 @@ export function ChatMessages() {
   }
 
   return (
-    <div className="overflow-auto mb-0 p-2">
-      <ul className="list-unstyled">
-        {channelMessages.map(message => (
-          <li key={message.id} className="mb-2">
-            <strong>
-              {message.username}
-              :
-            </strong>
-            {' '}
-            {message.body}
-          </li>
-        ))}
-      </ul>
-      <div ref={messagesEndRef} />
+    <div className="h-100 overflow-y-auto d-flex flex-column-reverse mb-0 p-2">
+      <div ref={messagesEndRef} /> 
+      {[...channelMessages].reverse().map(message => (
+        <div  key={message.id} className="mb-2">
+          <strong>
+          {message.username}
+            :
+          </strong>
+          {' '}
+          {message.body}
+        </div>
+      ))}
     </div>
   )
 }
