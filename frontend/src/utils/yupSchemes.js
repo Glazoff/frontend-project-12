@@ -1,5 +1,19 @@
 import * as yup from 'yup'
 
+export const loginSchema = t => yup.object({
+  name: yup
+    .string()
+    .trim()
+    .required(t('auth.login.errors.nameRequired'))
+    .min(3, t('auth.login.errors.nameMinLength'))
+    .max(20, t('auth.login.errors.nameMaxLength')),
+  password: yup
+    .string()
+    .trim()
+    .required(t('auth.login.errors.passwordRequired'))
+    .min(6, t('auth.login.errors.passwordMinLength')),
+})
+
 export const signupSchema = t => yup.object({
   name: yup
     .string()

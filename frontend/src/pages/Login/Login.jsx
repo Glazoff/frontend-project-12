@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useTranslation } from 'react-i18next'
+import { loginSchema } from '../../utils/yupSchemes'
 
 import { setAuthToken } from '../../api'
 import { login } from '../../api/auth'
@@ -35,6 +36,7 @@ export function Login() {
       name: '',
       password: '',
     },
+    validationSchema: loginSchema(t),
     onSubmit: submitForm,
   })
 
@@ -57,8 +59,12 @@ export function Login() {
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.name && !!formik.errors.name}
                     disabled={formik.isSubmitting}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.name}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formPassword">
@@ -70,8 +76,12 @@ export function Login() {
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.password && !!formik.errors.password}
                     disabled={formik.isSubmitting}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.password}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button
