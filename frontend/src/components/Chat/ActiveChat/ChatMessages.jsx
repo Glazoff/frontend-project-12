@@ -28,17 +28,19 @@ export function ChatMessages() {
   }
 
   return (
-    <ul className="list-unstyled mb-0">
-      {channelMessages.map(message => (
-        <li key={message.id} className="mb-2">
-          <strong>
-            {message.username}
-            :
-          </strong>
-          {' '}
-          {message.body}
-        </li>
-      ))}
-    </ul>
+    <div className="overflow-auto mb-0 p-2">
+      <ul className=" list-unstyled">
+        {channelMessages.map(message => (
+          <li key={message.id} className="mb-2">
+            <strong>
+              {message.username}
+              :
+            </strong>
+            {' '}
+            {message.body}
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }

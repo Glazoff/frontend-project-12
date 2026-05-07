@@ -8,7 +8,7 @@ export function ChatHeader() {
   const currentChannel = channels.find(ch => ch.id === currentChannelId)
 
   return (
-    <div className="bg-light d-flex justify-content-between align-items-center">
+    <div className="bg-light p-2 border-bottom">
       <h5 className="mb-0">
         #
         {currentChannel?.name || t('chat.chatHeader.defaultName')}

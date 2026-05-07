@@ -20,21 +20,23 @@ export function Layout() {
 
   return (
     <div className="d-flex flex-column h-100">
-      <Navbar bg="light" variant="light">
-        <Container>
-          <Nav>
-            <Nav.Link as={Link} to="/">{t('common.nav.appName')}</Nav.Link>
-          </Nav>
-          <Nav>
-            {username && (<Button variant="outline-secondary" onClick={handleLogout}>
-              {t('common.nav.logout')}
-            </Button>)}
-          </Nav>
-        </Container>
-      </Navbar>
-      <Container fluid className="h-100"> 
-        <Outlet />
+      <Container fluid>
+        <Navbar bg="light" variant="light">
+          <Container>
+            <Nav>
+              <Nav.Link as={Link} to="/">{t('common.nav.appName')}</Nav.Link>
+            </Nav>
+            <Nav>
+              {username && (<Button variant="outline-secondary" onClick={handleLogout}>
+                {t('common.nav.logout')}
+              </Button>)}
+            </Nav>
+          </Container>
+        </Navbar>
       </Container>
+      <div className="h-100 overflow-hidden"> 
+        <Outlet />
+      </div>
     </div>
   )
 }

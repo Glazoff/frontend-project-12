@@ -19,11 +19,11 @@ export function ChatLayout() {
 
   return (
     <>
-      <Container fluid>
+      <Container fluid className="h-100">
         <ConnectionStatusAlert status={connectionStatus} />
-        <Row className="g-0">
-          <Col xs={3} className="border-end">
-            <Card className="border-0">
+        <Row className="g-0 h-100 flex-md-row">
+          <Col xs={3} className="border-end h-100 d-flex">
+            <Card className="border-0 w-100">
               <Card.Header className="bg-light d-flex justify-content-between align-items-center">
                 <h5 className="mb-0">{t('chat.layout.channels')}</h5>
                 <AddChannelButton onClick={handleOpenModal} />
@@ -33,7 +33,7 @@ export function ChatLayout() {
               </Card.Body>
             </Card>
           </Col>
-          <Col xs={9}>
+          <Col xs={9} className="h-100">
             <ActiveChat />
           </Col>
         </Row>

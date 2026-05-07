@@ -43,7 +43,7 @@ export function ChatInput() {
   const isDisabled = isSending || connectionStatus === CONNECTION_STATUS.DISCONNECTED
 
   return (
-    <div className="bg-light p-3">
+    <div className="bg-light p-3 mt-auto border-top">
       <Form className="d-flex gap-2" onSubmit={handleSubmit}>
         <label htmlFor="messageInput" style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', border: 0 }}>
           {t('chat.chatInput.label')}
