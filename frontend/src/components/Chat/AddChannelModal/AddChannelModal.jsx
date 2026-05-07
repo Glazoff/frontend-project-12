@@ -53,7 +53,7 @@ export function AddChannelModal({ show, handleClose }) {
   })
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal centered show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('chat.addChannelModal.title')}</Modal.Title>
       </Modal.Header>

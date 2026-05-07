@@ -5,7 +5,7 @@ export function RemoveChannelModal({ show, handleClose, handleConfirm, channelNa
   const { t } = useTranslation()
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal centered show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('chat.removeChannelModal.title')}</Modal.Title>
       </Modal.Header>

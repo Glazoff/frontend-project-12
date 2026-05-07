@@ -46,7 +46,7 @@ export function RenameChannelModal({ show, handleClose, handleConfirm, channel, 
   })
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal centered show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('chat.renameChannelModal.title')}</Modal.Title>
       </Modal.Header>
