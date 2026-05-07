@@ -16,7 +16,6 @@ const CustomToggle = forwardRef(({ children, onClick }, ref) => (
     size="sm"
     variant="outline-secondary"
     onClick={(e) => {
-      e.preventDefault()
       onClick(e)
     }}
   >
