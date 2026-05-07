@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, forwardRef } from 'react'
 import { useDispatch } from 'react-redux'
-import { Dropdown } from 'react-bootstrap'
+import { Dropdown, Button} from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 import { removeChannel as removeChannelApi, editChannel as editChannelApi } from '../../../api/channels'
@@ -8,6 +8,22 @@ import { removeChannel } from '../../../store/channelsSlice'
 import { RenameChannelModal } from '../RenameChannelModal'
 import { RemoveChannelModal } from '../RemoveChannelModal'
 import { useToastNotifications } from '../../ToastNotification'
+
+const CustomToggle = forwardRef(({ children, onClick }, ref) => (
+  <Button
+    as="div"
+    ref={ref}
+    size="sm"
+    variant="outline-secondary"
+    onClick={(e) => {
+      e.preventDefault();
+      onClick(e);
+    }}
+  >
+    {children}
+    &#x25bc;
+  </Button>
+));
 
 export function ChannelMenu({ channel }) {
   const { t } = useTranslation()
@@ -62,8 +78,8 @@ export function ChannelMenu({ channel }) {
   return (
     <>
       <Dropdown align="start">
-        <Dropdown.Toggle variant="outline-secondary" size="sm" id="channel-menu-dropdown">
-          <span>{t('chat.chatHeader.manageChannel')}</span>
+        <Dropdown.Toggle as={CustomToggle} size="sm" id="channel-menu-dropdown">
+          {t('chat.chatHeader.manageChannel')}
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
