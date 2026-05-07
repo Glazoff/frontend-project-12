@@ -10,7 +10,7 @@ export const loginSchema = t => yup.object({
   password: yup
     .string()
     .trim()
-    .required(t('auth.login.errors.passwordRequired'))
+    .required(t('auth.login.errors.passwordRequired')),
 })
 
 export const signupSchema = t => yup.object({

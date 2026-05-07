@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 
 export function ChatMessages() {
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef(null)
 
   const { t } = useTranslation()
   const { items: messages, loading, error } = useSelector(state => state.messages)
@@ -12,7 +12,7 @@ export function ChatMessages() {
   const channelMessages = messages.filter(msg => msg.channelId === currentChannelId)
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     console.log(messages)
   }, [messages])
 
@@ -37,11 +37,11 @@ export function ChatMessages() {
 
   return (
     <div className="h-100 overflow-y-auto d-flex flex-column-reverse mb-0 p-2">
-      <div ref={messagesEndRef} /> 
+      <div ref={messagesEndRef} />
       {[...channelMessages].reverse().map(message => (
-        <div  key={message.id} className="mb-2">
+        <div key={message.id} className="mb-2">
           <strong>
-          {message.username}
+            {message.username}
             :
           </strong>
           {' '}

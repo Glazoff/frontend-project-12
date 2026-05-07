@@ -1,6 +1,6 @@
 import { useState, forwardRef } from 'react'
 import { useDispatch } from 'react-redux'
-import { Dropdown, Button} from 'react-bootstrap'
+import { Dropdown, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 import { removeChannel as removeChannelApi, editChannel as editChannelApi } from '../../../api/channels'
@@ -16,14 +16,16 @@ const CustomToggle = forwardRef(({ children, onClick }, ref) => (
     size="sm"
     variant="outline-secondary"
     onClick={(e) => {
-      e.preventDefault();
-      onClick(e);
+      e.preventDefault()
+      onClick(e)
     }}
   >
     {children}
     &#x25bc;
   </Button>
-));
+))
+
+CustomToggle.displayName = 'CustomToggle'
 
 export function ChannelMenu({ channel }) {
   const { t } = useTranslation()

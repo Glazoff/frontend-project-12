@@ -27,14 +27,16 @@ export function Layout() {
               <Nav.Link as={Link} to="/">{t('common.nav.appName')}</Nav.Link>
             </Nav>
             <Nav>
-              {username && (<Button variant="outline-secondary" onClick={handleLogout}>
-                {t('common.nav.logout')}
-              </Button>)}
+              {username && (
+                <Button variant="outline-secondary" onClick={handleLogout}>
+                  {t('common.nav.logout')}
+                </Button>
+              )}
             </Nav>
           </Container>
         </Navbar>
       </Container>
-      <div className="h-100 overflow-hidden"> 
+      <div className="h-100 overflow-hidden">
         <Outlet />
       </div>
     </div>
