@@ -19,11 +19,11 @@ export function ChatLayout() {
 
   return (
     <>
-      <Container fluid className="h-100">
+      <Container fluid>
         <ConnectionStatusAlert status={connectionStatus} />
-        <Row className="h-100 g-0">
+        <Row className="g-0">
           <Col xs={3} className="border-end">
-            <Card className="h-100 border-0">
+            <Card className="border-0">
               <Card.Header className="bg-light d-flex justify-content-between align-items-center">
                 <h5 className="mb-0">{t('chat.layout.channels')}</h5>
                 <AddChannelButton onClick={handleOpenModal} />

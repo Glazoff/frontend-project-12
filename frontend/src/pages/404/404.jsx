@@ -5,8 +5,8 @@ export function PageNotFound() {
   const { t } = useTranslation()
 
   return (
-    <Container className="h-100">
-      <Row className="h-100 align-items-center justify-content-center">
+    <Container>
+      <Row className="align-items-center justify-content-center">
         <Col xs={12} sm={8} md={6} lg={4}>
           <Card className="text-center" shadow="sm">
             <Card.Body>
