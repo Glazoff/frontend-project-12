@@ -19,7 +19,7 @@ export function Layout() {
   }
 
   return (
-    <>
+    <div className="d-flex flex-column h-100">
       <Navbar bg="light" variant="light">
         <Container>
           <Nav>
@@ -32,7 +32,9 @@ export function Layout() {
           </Nav>
         </Container>
       </Navbar>
-      <Outlet />
-    </>
+      <Container fluid className="h-100"> 
+        <Outlet />
+      </Container>
+    </div>
   )
 }
