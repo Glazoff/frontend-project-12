@@ -11,7 +11,6 @@ export const loginSchema = t => yup.object({
     .string()
     .trim()
     .required(t('auth.login.errors.passwordRequired'))
-    .min(6, t('auth.login.errors.passwordMinLength')),
 })
 
 export const signupSchema = t => yup.object({
