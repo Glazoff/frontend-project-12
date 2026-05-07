@@ -13,7 +13,6 @@ export function ChatMessages() {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-    console.log(messages)
   }, [messages])
 
   if (loading) {
