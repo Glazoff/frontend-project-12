@@ -54,19 +54,17 @@ export function ChannelList() {
     <>
       <ListGroup variant="flush">
         {channels.map(channel => (
-          <ListGroup.Item
-            key={channel.id}
-            action
-            active={channel.id === currentChannelId}
-            onClick={() => handleSelectChannel(channel.id)}
-          >
-            <>
-              #
-              {' '}
+          <div key={channel.id} className="d-flex border">
+            <ListGroup.Item
+              action
+              className="border-0 py-1"
+              active={channel.id === currentChannelId}
+              onClick={() => handleSelectChannel(channel.id)}
+            >
               {channel.name}
-              {channel?.removable && <ChannelMenu channel={channel} />}
-            </>
-          </ListGroup.Item>
+            </ListGroup.Item>
+            {channel?.removable && <ChannelMenu channel={channel} />}
+          </div>
         ))}
       </ListGroup>
       <RemoveChannelModal
