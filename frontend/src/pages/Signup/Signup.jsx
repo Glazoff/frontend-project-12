@@ -64,6 +64,7 @@ export function Signup() {
                   <Form.Control
                     type="text"
                     name="name"
+                    autoComplete="off"
                     placeholder={t('auth.signup.usernamePlaceholder')}
                     value={formik.values.name}
                     onChange={formik.handleChange}
@@ -81,6 +82,7 @@ export function Signup() {
                   <Form.Control
                     type="password"
                     name="password"
+                    autoComplete="off"
                     placeholder={t('auth.signup.passwordPlaceholder')}
                     value={formik.values.password}
                     onChange={formik.handleChange}
@@ -98,6 +100,7 @@ export function Signup() {
                   <Form.Control
                     type="password"
                     name="confirmPassword"
+                    autoComplete="off"
                     placeholder={t('auth.signup.confirmPasswordPlaceholder')}
                     value={formik.values.confirmPassword}
                     onChange={formik.handleChange}

@@ -53,6 +53,7 @@ export function ChatInput() {
           ref={inputRef}
           id="messageInput"
           type="text"
+          autoComplete="off"
           placeholder={t('chat.chatInput.placeholder')}
           value={messageText}
           onChange={e => setMessageText(e.target.value)}

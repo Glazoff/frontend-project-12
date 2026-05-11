@@ -66,6 +66,7 @@ export function AddChannelModal({ show, handleClose }) {
               ref={inputRef}
               type="text"
               name="name"
+              autoComplete="off"
               placeholder={t('chat.addChannelModal.namePlaceholder')}
               value={formik.values.name}
               onChange={formik.handleChange}

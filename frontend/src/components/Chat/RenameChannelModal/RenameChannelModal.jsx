@@ -59,6 +59,7 @@ export function RenameChannelModal({ show, handleClose, handleConfirm, channel, 
               ref={inputRef}
               type="text"
               name="name"
+              autoComplete="off"
               placeholder={t('chat.renameChannelModal.namePlaceholder')}
               value={formik.values.name}
               onChange={formik.handleChange}

@@ -54,6 +54,7 @@ export function Login() {
                   <Form.Label>{t('auth.login.usernameLabel')}</Form.Label>
                   <Form.Control
                     type="text"
+                    autoComplete="off"
                     name="name"
                     placeholder={t('auth.login.usernamePlaceholder')}
                     value={formik.values.name}
@@ -72,6 +73,7 @@ export function Login() {
                   <Form.Control
                     type="password"
                     name="password"
+                    autoComplete="off"
                     placeholder={t('auth.login.passwordPlaceholder')}
                     value={formik.values.password}
                     onChange={formik.handleChange}
